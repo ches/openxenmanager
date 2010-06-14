@@ -41,8 +41,6 @@ class oxcSERVERvmnetwork:
         if "Value" in res:
             self.track_tasks[res['Value']] = vm_ref 
             self.vif_plug.append(res['Value'])
-        else:
-            print res
         res = self.connection.VIF.destroy(self.session_uuid, vif_ref)
         if "Value" in res:
             self.track_tasks[res['Value']] = vm_ref 
@@ -101,6 +99,6 @@ class oxcSERVERvmnetwork:
             self.track_tasks[res['Value']] = vm_ref 
             self.vif_plug.append(res['Value'])
         else:
-            print res
+            print "**", res
 
 

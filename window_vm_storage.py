@@ -238,8 +238,8 @@ class oxcWindowVMStorage:
         vif = listvmnetwork.get_value(iter_ref, 6)
         vif_info = self.xc_servers[self.selected_host].all_vif[vif]
         unplug = vif_info["allowed_operations"].count("unplug")
-        self.builder.get_object("btpropertiesinterface").set_sensitive(unplug)
-        self.builder.get_object("btremoveinterface").set_sensitive(unplug)
+        self.builder.get_object("btpropertiesinterface").set_sensitive(unplug or self.selected_state == "Halted")
+        self.builder.get_object("btremoveinterface").set_sensitive(unplug or self.selected_state == "Halted")
 
     def on_acceptvmaddnewdisk_clicked(self, widget, data=None):
         """
