@@ -895,7 +895,10 @@ class oxcWindowMenuItem:
             # Fill the entries with dns ips
             dns = pif['DNS'].split(",")
             self.builder.get_object("txtmgmtdns1").set_text(dns[0])
-            self.builder.get_object("txtmgmtdns2").set_text(dns[1])
+            if len(dns) > 1:
+                self.builder.get_object("txtmgmtdns2").set_text(dns[1])
+            else:
+                self.builder.get_object("txtmgmtdns2").set_text("")
         else:
             # If not, empty the entris and disable both entries
             self.builder.get_object("txtmgmtdns1").set_sensitive(False)

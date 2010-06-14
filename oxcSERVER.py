@@ -1621,7 +1621,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             hosts = {}
             for host_patch in self.all_pool_patch[patch]["host_patches"]:
                 host = self.all_host_patch[host_patch]["host"]
-                hosts[host] = self.all_pool_patch[patch]["host_patches"][0]
+                hosts[host] += self.all_pool_patch[patch]["host_patches"]
             if hosts.keys() == self.all_hosts.keys():
                 fullpatchs += self.all_pool_patch[patch]["name_label"] + "\n"
             else:

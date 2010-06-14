@@ -287,7 +287,7 @@ class oxcSERVERmenuitem:
         current = 0
         for network in self.all_network:
             if self.all_network[network]['bridge'] != "xapi0":
-                if self.all_pif[self.all_network[network]['PIFs'][0]]['bond_slave_of'] == "OpaqueRef:NULL":
+                if self.all_network[network]['PIFs'] and self.all_pif[self.all_network[network]['PIFs'][0]]['bond_slave_of'] == "OpaqueRef:NULL":
                     if network == network_ref:
                         current = i
                     list.append([network, self.all_network[network]['name_label'].replace('Pool-wide network associated with eth','Network ')]) 
