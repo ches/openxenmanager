@@ -241,6 +241,16 @@ class oxcWindowNewVm:
         listnewvmstorage = self.builder.get_object("listnewvmstorage")
         self.builder.get_object("disksize").set_value(
             float(listnewvmstorage.get_value(self.newvmdata['last_diskiter_selected'],0)))
+        treenewvmdisk =  self.builder.get_object("treenewvmdisk")
+        listnewvmdisk =  self.builder.get_object("listnewvmdisk")
+        selection = treenewvmdisk.get_selection()
+        ref = listnewvmstorage.get_value(self.newvmdata['last_diskiter_selected'],3)
+        for i in range(0, listnewvmdisk.__len__()):
+            if ref == listnewvmdisk.get_value(listnewvmdisk.get_iter((i,)), 4):
+                print ref
+                treenewvmdisk.set_cursor((i,), treenewvmdisk.get_column(1))
+                treenewvmdisk.get_selection().select_path((i,))
+
         # Show a "new vm disk" window
         newvmdisk.show()
     def on_acceptnewvmdisk_clicked(self, widget, data=None):
