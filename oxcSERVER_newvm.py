@@ -100,7 +100,7 @@ class oxcSERVERnewvm:
         for iter_ref in iters:
             size = int(float(self.wine.builder.get_object("listnewvmstorage").get_value(iter_ref, 0))*1024*1024*1024)
             sr = self.all_storage[self.wine.builder.get_object("listnewvmstorage").get_value(iter_ref, 3)]["uuid"]
-            if "postinstall" not in other_config:
+            if "postinstall" not in other_config and data["location"] != "radiobutton1":
                 disk += '<disk device="%d" size="%d" sr="%s" bootable="false" type="system" ionice="0" readonly="False" />' % (i, size, sr)
             else:    
                 if i == 0:
