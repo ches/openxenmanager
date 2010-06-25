@@ -7494,7 +7494,7 @@
                                                 </attributes>
                                               </object>
                                               <packing>
-                                                <property name="x">100</property>
+                                                <property name="x">110</property>
                                                 <property name="y">20</property>
                                               </packing>
                                             </child>
