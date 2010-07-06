@@ -546,7 +546,7 @@ class oxcWindowProperties:
 
             other_config = pool["other_config"]
             change = False
-            for cfield in  self.vboxchildtext:
+            for cfield in self.vboxchildtext:
                 if "XenCenter.CustomFields." + cfield in other_config:
                     if self.vboxchildtext[cfield].get_text() != other_config["XenCenter.CustomFields." + cfield]:
                         change = True
@@ -567,6 +567,7 @@ class oxcWindowProperties:
             if tb.get_text(tb.get_start_iter(), tb.get_end_iter()) != vm['name_description']:
                 self.xc_servers[self.selected_host].set_vm_name_description(self.selected_ref,
                         tb.get_text(tb.get_start_iter(), tb.get_end_iter()))
+
             if int(self.builder.get_object("spinpropvmmem").get_value()) != int(vm["memory_dynamic_min"])/1024/1024:
                 self.xc_servers[self.selected_host].set_vm_memory(self.selected_ref,
                         self.builder.get_object("spinpropvmmem").get_value())
@@ -581,6 +582,7 @@ class oxcWindowProperties:
                 if self.builder.get_object("spinpropvmprio").get_value() != float(256):
                     self.xc_servers[self.selected_host].set_vm_prio(self.selected_ref,
                         self.builder.get_object("spinpropvmprio").get_value())
+
             if "auto_poweron" in vm['other_config'] and vm['other_config']["auto_poweron"] == "true":
                 if self.builder.get_object("checkvmpropautostart").get_active() == False:
                     self.xc_servers[self.selected_host].set_vm_poweron(self.selected_ref,
@@ -608,12 +610,12 @@ class oxcWindowProperties:
                 vbd = self.xc_servers[self.selected_host].get_vbd(vbd_ref)
                 if vbd['VDI'] != "OpaqueRef:NULL" and vbd['VDI']:
                     vdi = self.xc_servers[self.selected_host].get_vdi(vbd['VDI'])
-                    if self.xc_servers[self.selected_host].get_storage(vdi['SR'])["type"] != "nfs":
+                    if not self.xc_servers[self.selected_host].get_storage(vdi['SR'])["shared"]:
                         shared = False
                         break
             if self.builder.get_object("radioautohome").get_active() and (vm["affinity"] != "OpaqueRef:NULL"):
                 self.xc_servers[self.selected_host].set_vm_affinity(self.selected_ref, "OpaqueRef:NULL")
-            if self.builder.get_object("radiomanualhome").get_active() and (vm["affinity"] != "OpaqueRef:NULL"):
+            if self.builder.get_object("radiomanualhome").get_active():
                 listhomeserver = self.builder.get_object("listhomeserver")
                 treehomeserver = self.builder.get_object("treehomeserver")
                 iter = treehomeserver.get_selection().get_selected()[1]

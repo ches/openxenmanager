@@ -576,6 +576,7 @@ class oxcWindowMenuItem:
             # Then selected the first
             treeimportservers.set_cursor((0, ), treeimportservers.get_column(0))
             treeimportservers.get_selection().select_path((0, ))
+
     def on_m_export_activate(self, widget, data=None):
         """
         "Export VM" menuitem pressed on right click menu

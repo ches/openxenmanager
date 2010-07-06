@@ -338,6 +338,7 @@ class oxcWindowStorage:
         self.builder.get_object("reattachformatiscsidisk").hide()
         # hide the window
         self.builder.get_object("newstorage").hide()
+
     def on_reattachscsidisk_clicked(self, widget, data=None):
         """
         Function called when you choose "reattach" scsi lun confirmation dialog

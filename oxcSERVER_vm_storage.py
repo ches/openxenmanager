@@ -134,7 +134,12 @@ class oxcSERVERvmstorage:
         if ro == True:
             vbd_cfg["mode"] = "RO"
 
-        print self.connection.VBD.create(self.session_uuid, vbd_cfg)
+        res = self.connection.VBD.create(self.session_uuid, vbd_cfg)
+        if "Value" in res:
+            res = self.connection.Async.VBD.plug(self.session_uuid, res["Value"])
+            if "Value" in res:
+                self.track_tasks[res['Value']] = ref 
+
     def install_xenserver_tools(self, vm):
         vdi = self.get_xs_tools_ref() 
         if self.get_vm_dvd_ref(vm) and self.all_vbd[self.get_vm_dvd_ref(vm)]['allowed_operations'].count("eject"):
