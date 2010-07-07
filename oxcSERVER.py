@@ -2151,7 +2151,12 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                            gtk.gdk.threads_leave()
 
                                     elif event["class"] == "vif":
-                                        self.all_vif[event["ref"]]  = event["snapshot"]
+                                        if event["operation"] == "del":
+                                            del self.all_bond[event["ref"]]
+                                        else:
+                                            if event["operation"] == "add":
+                                                self.connection.VIF.plug(event["ref"])
+                                            self.all_vif[event["ref"]]  = event["snapshot"]
                                     elif event["class"] == "sr":
                                         self.filter_uuid = event['snapshot']['uuid']
                                         self.all_storage[event["ref"]]  = event["snapshot"]
