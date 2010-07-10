@@ -2155,7 +2155,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                             del self.all_bond[event["ref"]]
                                         else:
                                             if event["operation"] == "add":
-                                                self.connection.VIF.plug(event["ref"])
+                                                self.connection.VIF.plug(self.session_uuid, event["ref"])
                                             self.all_vif[event["ref"]]  = event["snapshot"]
                                     elif event["class"] == "sr":
                                         self.filter_uuid = event['snapshot']['uuid']

@@ -85,7 +85,9 @@ class oxcSERVERmenuitem:
         if not self.all_vms[ref]['HVM_boot_policy']:
             self.connection.VM.set_HVM_boot_policy(self.session_uuid, ref, "BIOS order")
             change_policy = True
-        order = self.all_vms[ref]['HVM_boot_params']['order']
+        order = ""
+        if "order" in self.all_vms[ref]['HVM_boot_params']:
+            order = self.all_vms[ref]['HVM_boot_params']['order']
         self.connection.VM.set_HVM_boot_params(self.session_uuid, ref, {"order": "dn"})
 
         res = self.connection.VM.start(self.session_uuid, ref, False, False)

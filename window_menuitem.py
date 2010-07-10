@@ -626,6 +626,7 @@ class oxcWindowMenuItem:
             print "delete storage"
         #self.treestore.remove(self.selected_iter)
         #self.xc_servers[self.selected_host].destroy_vm(self.selected_ref)
+
     def on_m_connect_activate(self, widget, data=None):
         """
         "Connect" menuitem pressed on right click menu (Host)
