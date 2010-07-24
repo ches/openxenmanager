@@ -22072,7 +22072,7 @@ server if it can,</property>
                                         <property name="width_request">500</property>
                                         <property name="height_request">60</property>
                                         <property name="visible">True</property>
-                                        <property name="label" translatable="yes">The default virtual disks for the template you have selected are lister below.
+                                        <property name="label" translatable="yes">The default virtual disks for the template you have selected are listed below.
 You can add, modify or delete virtual disks, if required. When you have finished,
 click "Next" to continue to the next page.</property>
                                       </object>
@@ -22238,7 +22238,7 @@ click "Next" to continue to the next page.</property>
                                         <property name="width_request">500</property>
                                         <property name="height_request">60</property>
                                         <property name="visible">True</property>
-                                        <property name="label" translatable="yes">The default virtual network interfaces for the template you have selected are lister below.
+                                        <property name="label" translatable="yes">The default virtual network interfaces for the template you have selected are listed below.
 You can add, modify or delete virtual network interface, if required. When you have finished,
 click "Next" to continue to the next page.</property>
                                       </object>
