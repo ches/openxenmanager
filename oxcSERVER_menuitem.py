@@ -418,6 +418,7 @@ class oxcSERVERmenuitem:
                 self.last_pool_data = [server, server_ref, master_ip]
                 self.wine.last_host_pool = server 
                 self.wine.builder.get_object("forcejoinpool").show()
+
     def add_server_to_pool_force(self, ref, data=None):
         server = data[0]
         server_ref = data[1]

@@ -7106,15 +7106,15 @@
                                                   <object class="GtkButton" id="bttakesnapshot">
                                                     <property name="label" translatable="yes">Take Snapshot</property>
                                                     <property name="width_request">100</property>
-                                                    <property name="height_request">25</property>
+                                                    <property name="height_request">20</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
                                                     <signal name="clicked" handler="on_bttakesnapshot_clicked"/>
                                                   </object>
                                                   <packing>
-                                                    <property name="x">646</property>
-                                                    <property name="y">16</property>
+                                                    <property name="x">635</property>
+                                                    <property name="y">20</property>
                                                   </packing>
                                                 </child>
                                                 <child>
@@ -7157,6 +7157,86 @@
                                                   <packing>
                                                     <property name="x">20</property>
                                                     <property name="y">45</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkButton" id="btsnapnewvm">
+                                                    <property name="label" translatable="yes">New VM ...</property>
+                                                    <property name="width_request">120</property>
+                                                    <property name="height_request">20</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="sensitive">False</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <signal name="clicked" handler="on_m_snap_newvm_activate"/>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="x">20</property>
+                                                    <property name="y">20</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkButton" id="btsnapcreatetpl">
+                                                    <property name="label" translatable="yes">Create Template ...</property>
+                                                    <property name="width_request">140</property>
+                                                    <property name="height_request">20</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="sensitive">False</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <signal name="clicked" handler="on_m_snap_createtpl_activate"/>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="x">150</property>
+                                                    <property name="y">20</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkButton" id="btsnapexport">
+                                                    <property name="label" translatable="yes">Export As Template...</property>
+                                                    <property name="width_request">150</property>
+                                                    <property name="height_request">20</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="sensitive">False</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <signal name="clicked" handler="on_m_snap_export_activate"/>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="x">300</property>
+                                                    <property name="y">20</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkButton" id="btsnapdelete">
+                                                    <property name="label" translatable="yes">Delete</property>
+                                                    <property name="width_request">70</property>
+                                                    <property name="height_request">20</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="sensitive">False</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <signal name="clicked" handler="on_m_snap_delete_activate"/>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="x">550</property>
+                                                    <property name="y">20</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkButton" id="btsnaprevert">
+                                                    <property name="label" translatable="yes">Revert To ...</property>
+                                                    <property name="width_request">80</property>
+                                                    <property name="height_request">20</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="sensitive">False</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <signal name="clicked" handler="on_btsnaprevert_clicked"/>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="x">460</property>
+                                                    <property name="y">20</property>
                                                   </packing>
                                                 </child>
                                               </object>
@@ -7974,8 +8054,8 @@ is useful and you use it, your donation will help their development.</property>
     <property name="type_hint">normal</property>
     <property name="use_preview_label">False</property>
     <property name="preview_widget_active">False</property>
-    <property name="do_overwrite_confirmation">True</property>
     <property name="action">save</property>
+    <property name="do_overwrite_confirmation">True</property>
     <signal name="confirm_overwrite" handler="on_filesave_confirm_overwrite"/>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox3">
@@ -9157,6 +9237,7 @@ is useful and you use it, your donation will help their development.</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="invisible_char">&#x25CF;</property>
+                <property name="text" translatable="yes">hot </property>
               </object>
               <packing>
                 <property name="x">5</property>
@@ -18305,9 +18386,9 @@ Are you sure you want to detach this storage repository?</property>
     <property name="title" translatable="yes">Backup Server</property>
     <property name="window_position">center</property>
     <property name="type_hint">normal</property>
-    <property name="filter">filefilterbackupserver</property>
-    <property name="do_overwrite_confirmation">True</property>
     <property name="action">save</property>
+    <property name="do_overwrite_confirmation">True</property>
+    <property name="filter">filefilterbackupserver</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox46">
         <property name="visible">True</property>
@@ -19075,8 +19156,8 @@ and transition it into maintenance mode.</property>
     <property name="title" translatable="yes">Save Database Pool</property>
     <property name="window_position">center</property>
     <property name="type_hint">normal</property>
-    <property name="filter">filterfilepoolbackupdb</property>
     <property name="action">save</property>
+    <property name="filter">filterfilepoolbackupdb</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox66">
         <property name="visible">True</property>
@@ -19721,9 +19802,9 @@ Do you want force join to pool?</property>
     <property name="window_position">center</property>
     <property name="type_hint">normal</property>
     <property name="has_separator">False</property>
-    <property name="filter">filefilterbackupserver</property>
-    <property name="do_overwrite_confirmation">True</property>
     <property name="action">save</property>
+    <property name="do_overwrite_confirmation">True</property>
+    <property name="filter">filefilterbackupserver</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox80">
         <property name="visible">True</property>
@@ -20982,8 +21063,8 @@ Author: David Markey &lt;david.markey@citrix.com&gt;</property>
     <property name="title" translatable="yes">Save Status Report</property>
     <property name="window_position">center</property>
     <property name="type_hint">normal</property>
-    <property name="do_overwrite_confirmation">True</property>
     <property name="action">save</property>
+    <property name="do_overwrite_confirmation">True</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox86">
         <property name="visible">True</property>
@@ -23476,6 +23557,108 @@ Do you want to reattach the SR?</property>
     <action-widgets>
       <action-widget response="0">acceptnewstgreattachaoe</action-widget>
       <action-widget response="0">cancelnewstgreattachaoe</action-widget>
+    </action-widgets>
+  </object>
+  <object class="GtkDialog" id="dialogrevert">
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">Revert to Snapshot</property>
+    <property name="type_hint">normal</property>
+    <property name="has_separator">False</property>
+    <child internal-child="vbox">
+      <object class="GtkVBox" id="dialog-vbox98">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child>
+          <object class="GtkEventBox" id="eventbox99">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkFixed" id="fixed145">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkImage" id="image73">
+                    <property name="width_request">32</property>
+                    <property name="height_request">32</property>
+                    <property name="visible">True</property>
+                    <property name="stock">gtk-dialog-warning</property>
+                  </object>
+                  <packing>
+                    <property name="x">15</property>
+                    <property name="y">15</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label96">
+                    <property name="width_request">400</property>
+                    <property name="height_request">150</property>
+                    <property name="visible">True</property>
+                    <property name="xalign">0</property>
+                    <property name="yalign">0</property>
+                    <property name="label" translatable="yes">Are you sure you want to revert to selected snapshot?
+
+Reverting to this snapshot will revert the VM back to the point in the time that the snapshot was created, and the current state of the VM will be lost
+
+Before do a revert is recommended take a snapshot with current state.</property>
+                    <property name="wrap">True</property>
+                  </object>
+                  <packing>
+                    <property name="x">60</property>
+                    <property name="y">15</property>
+                  </packing>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="dialog-action_area97">
+            <property name="visible">True</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="acceptdialogrevert">
+                <property name="label">gtk-ok</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_acceptdialogrevert_clicked"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="canceldialogrevert">
+                <property name="label">gtk-cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_canceldialogrevert_clicked"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="0">acceptdialogrevert</action-widget>
+      <action-widget response="0">canceldialogrevert</action-widget>
     </action-widgets>
   </object>
 </interface>

@@ -1715,7 +1715,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         else:
             labels["lblvmstartup"] =  "" 
         labels['lblvmdistro'] = ""
-        if metric_guest != "OpaqueRef:NULL":
+        if metric_guest != "OpaqueRef:NULL" and metric_guest in self.all_vm_guest_metrics:
             guest_metrics = self.all_vm_guest_metrics[metric_guest]
             if "PV_drivers_up_to_date" in guest_metrics and guest_metrics['PV_drivers_up_to_date']:
                 state = "Optimized"

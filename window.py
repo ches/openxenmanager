@@ -537,7 +537,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                        "dialogdeletedisk", "dialogdeletevdi", "dialogremovenetwork",
                        "dialogsnapshotname", "vmaddnewdisk", "windowcopyvm",
                        "forcejoinpool", "windowalerts", "migratetool", "fileoutputxva",
-                       "statusreport"
+                       "statusreport", "dialogrevert"
                        ]:
             self.builder.get_object(widget).modify_bg(gtk.STATE_NORMAL, blue)
         for i in range(33,40):
@@ -561,7 +561,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         for i in range(54,68):
             self.builder.get_object("eventbox" + str(i)).modify_bg(gtk.STATE_NORMAL, white)
         self.builder.get_object("eventbox67").modify_bg(gtk.STATE_NORMAL, blue)
-        for i in range(68,99):
+        for i in range(68,100):
             self.builder.get_object("eventbox" + str(i)).modify_bg(gtk.STATE_NORMAL, white)
         self.builder.get_object("eventbox76").modify_bg(gtk.STATE_NORMAL, blue)
 
@@ -576,7 +576,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                      "removeserverfrompool", "repairstorage", "menu_add_server",
                      "menu_add_to_pool", "menu_m_add_server", "menu_server_add_to_pool", 
                      "menu_pool_migrate", "migratetoolhelp","filesavereport", "updatemanager",
-                     "filenewupdate", "wcustomfields", "fileexportmap"
+                     "filenewupdate", "wcustomfields", "fileexportmap" 
                      ]:
             self.builder.get_object(widget).modify_bg(gtk.STATE_NORMAL, blue)
 
@@ -632,7 +632,8 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 "acceptfilenewupdate", "cancelfilenewupdate", "btgraphtenmin",  "btgraphtwohours",
                 "btgraphoneweek", "btgraphoneyear", "btsendctraltdel", "btenterfullscreen", "btsendctrlaltdel2", 
                 "btexitfullscreen", "bteditcustomfields", "addcustomfield", "deletecustomfield", "cancelwcustomfields",
-                "acceptwcustomfields", "btexportmap", "rescanisos", "btnewstgsaoescan"
+                "acceptwcustomfields", "btexportmap", "rescanisos", "btnewstgsaoescan", "btsnapnewvm",
+                "btsnapcreatetpl", "btsnapexport", "btsnapdelete", "btsnaprevert", "acceptdialogrevert", "canceldialogrevert"
                 ]:
             self.builder.get_object(button).modify_bg(gtk.STATE_NORMAL, blue)
             self.builder.get_object(button).modify_bg(gtk.STATE_ACTIVE, blue)

@@ -119,11 +119,36 @@ class oxcWindowVMSnapshot:
            widget.grab_focus()
            widget.set_cursor( path, col, 0)
            iter = self.builder.get_object("listvmsnapshots").get_iter(path)
+           self.builder.get_object("btsnapnewvm").set_sensitive(iter != None)
+           self.builder.get_object("btsnapcreatetpl").set_sensitive(iter != None)
+           self.builder.get_object("btsnapexport").set_sensitive(iter != None)
+           self.builder.get_object("btsnapdelete").set_sensitive(iter != None)
            # Set in a global variable the selected snapshot
            self.selected_snap_ref  = self.builder.get_object("listvmsnapshots").get_value(iter, 0)
+           ops = self.xc_servers[self.selected_host].all_vms[self.selected_snap_ref]['allowed_operations']
+           self.builder.get_object("btsnaprevert").set_sensitive("revert" in ops)
            if event.button == 3:
                # If button pressed is the right.. 
                # Show a menu with snapshot options
                menu_snapshot = self.builder.get_object("menu_snapshot")
                menu_snapshot.popup( None, None, None, event.button, time)
-	
+
+    def on_btsnaprevert_clicked(self, widget, data=None):
+        """
+        Function called when you press "Revert to..." on a snapshot
+        """
+        self.builder.get_object("dialogrevert").show()
+
+    def on_canceldialogrevert_clicked(self, widget, data=None):
+        """
+        Function called when you cancel revert dialog
+        """
+        self.builder.get_object("dialogrevert").hide()
+
+    def on_acceptdialogrevert_clicked(self, widget, data=None):
+        """
+            Function called when you cancel revert dialog
+        """
+        self.xc_servers[self.selected_host].revert_to_snapshot(self.selected_ref, self.selected_snap_ref) 
+        self.builder.get_object("dialogrevert").hide()
+

@@ -42,7 +42,15 @@ class oxcSERVERvmsnapshot:
             self.track_tasks[res['Value']] = ref
         else:
             print res
-    
+
+    def revert_to_snapshot(self, ref, snapref):
+        res = self.connection.Async.VM.revert(self.session_uuid, snapref)
+        if "Value" in res:
+            self.track_tasks[res['Value']] = ref
+        else:
+            print res
+
+
     def delete_snapshot(self, ref, ref_vm):
         for vbd in self.all_vms[ref]['VBDs']:
             if self.all_vbd[vbd]['VDI'] != "OpaqueRef:NULL":
