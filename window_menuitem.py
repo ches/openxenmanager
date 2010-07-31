@@ -533,7 +533,7 @@ class oxcWindowMenuItem:
             self.builder.get_object("previousnewstorage").set_sensitive(False)
         elif stgtype == "nfs":
             self.builder.get_object("radionewstgnfsvhd").set_active(True)
-            self.builder.get_object("txtnewstgnfsname").set_text(self.builder.get_object("nextnewstorage"), self.selected_name)
+            self.builder.get_object("txtnewstgnfsname").set_text(self.selected_name)
             self.on_nextnewstorage_clicked(widget, data)
             self.builder.get_object("previousnewstorage").set_sensitive(False)
         else:
