@@ -205,6 +205,7 @@ class oxcSERVERaddserver:
                            gtk.gdk.pixbuf_new_from_file("images/storage_detached_16.png"),\
                              self.all_storage[sr]['name_label'], self.all_storage[sr]['uuid'],\
                              "storage", None, self.host, sr, self.all_storage[sr]['allowed_operations'], None])
+                    continue
                 broken = False
                 for pbd_ref in self.all_storage[sr]['PBDs']:
                     if not self.all_pbd[pbd_ref]['currently_attached']:
