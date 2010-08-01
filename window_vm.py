@@ -78,7 +78,7 @@ class oxcWindowVM(oxcWindowVMNetwork,oxcWindowVMStorage,oxcWindowVMSnapshot,oxcW
             iter = selection.get_selected()[1]
         sr = listcopystg.get_value(iter, 1)
         # Call to function to copy the vm
-        self.xc_servers[self.selected_host].copy_vm(self.selected_ref, name, desc, sr, True)
+        self.xc_servers[self.selected_host].copy_vm(self.selected_ref, name, desc, sr, full)
         self.builder.get_object("windowcopyvm").hide()
 
     def on_btimportaddnetwork_clicked(self, widget, data=None):

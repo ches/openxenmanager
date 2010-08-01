@@ -3547,7 +3547,7 @@
                                                         </child>
                                                         <child>
                                                           <object class="GtkButton" id="rescanisos">
-                                                            <property name="label" translatable="yes">Rescan ISOs</property>
+                                                            <property name="label" translatable="yes">Rescan</property>
                                                             <property name="width_request">100</property>
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>

@@ -2152,7 +2152,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
 
                                     elif event["class"] == "vif":
                                         if event["operation"] == "del":
-                                            del self.all_bond[event["ref"]]
+                                            del self.all_vif[event["ref"]]
                                         else:
                                             if event["operation"] == "add":
                                                 self.connection.VIF.plug(self.session_uuid, event["ref"])
