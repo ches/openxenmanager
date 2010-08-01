@@ -1,4 +1,4 @@
-import socket
+import socket, select
 import sys
 from threading import Thread
 import traceback
@@ -25,6 +25,7 @@ class Tunnel:
         data = self.server_fd.recv(24)
         data = self.server_fd.recv(35)
         data = self.server_fd.recv(2)
+        self.server_fd.setblocking(0)
         Thread(target=self.read_from_server, args=()).start()
         try:
             codes = ["\x39", "\x02", "\x28", "\x04", "\x05", "\x06", "\x08", "\x28", #/*  !"#$%&' */
@@ -84,17 +85,17 @@ class Tunnel:
 
     def read_from_server(self):
         try:
-            data = self.server_fd.recv(1024)
-            while data and self.halt == False:
-                 if "XenServer Virtual Terminal" in data:
-                     self.translate = False
-                     data = data[:7] + "\x00" + data[8:]
-                 elif "+HVMXEN-" in data:
-                     self.translate = True 
-                     data = data[:7] + "\x00" + data[8:]
-
-                 self.client_fd.send(data)
-                 data = self.server_fd.recv(1024)
+            while self.halt == False:
+                 ready_to_read, ready_to_write, in_error = select.select([self.server_fd], [], [], 0)
+                 if self.server_fd in ready_to_read:
+                     data = self.server_fd.recv(1024)
+                     if "XenServer Virtual Terminal" in data:
+                         self.translate = False
+                         data = data[:7] + "\x00" + data[8:]
+                     elif "+HVMXEN-" in data:
+                         self.translate = True 
+                         data = data[:7] + "\x00" + data[8:]
+                     self.client_fd.send(data)
         except:
             if self.halt == False:
                  print "Unexpected error:", sys.exc_info()
