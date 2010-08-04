@@ -1965,6 +1965,10 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                                     self.wine.builder.get_object("treevmnetwork"),
                                                     self.wine.builder.get_object("listvmnetwork"))
                                             gtk.gdk.threads_leave()
+
+                                    if event["snapshot"]["status"] == "success" and event["snapshot"]["name_label"] == "Async.VM.revert":
+                                        self.start_vm(self.track_tasks[event["ref"]])
+
                                     if event["snapshot"]["status"] == "success" and \
                                             (event["snapshot"]["name_label"] == "Async.VM.clone" or event["snapshot"]["name_label"] == "Async.VM.copy"):
                                         dom = xml.dom.minidom.parseString(event['snapshot']['result'])
