@@ -29,6 +29,7 @@ import xml.dom.minidom
 import pdb
 import rrdinfo
 import time
+import put
 import gobject
 from rrd import RRD, XPORT
 import xml.sax.saxutils as saxutils
@@ -439,13 +440,17 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         task_uuid = self.connection.task.create(self.session_uuid, "Restoring Server", "Restoring Server %s from %s " % (name,file))
         self.track_tasks[task_uuid['Value']] = "Restore.Server"
         #size=os.stat(file)[6] 
+
+
+        fp=open(file, 'rb')
         url = self.wine.selected_ip
+        put.putfile(fp, 'http://' + url + '/host_restore?session_id=%s&task_id=%s&dry_run=true' % (self.session_uuid, task_uuid['Value']))
+        return 
         conn = httplib.HTTP(url)
         conn.putrequest('PUT', '/host_restore?session_id=%s&task_id=%s&dry_run=true' % (self.session_uuid, task_uuid['Value']))
         conn.putheader('Content-Type', 'text/plain')
         conn.endheaders()
 
-        fp=open(file, 'rb')
         blocknum=0
         uploaded=0
         blocksize=4096
@@ -477,11 +482,13 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
 
         size=os.path.getsize(filename)
         url = self.wine.selected_ip
+        fp=open(filename, 'r')
+        put.putfile(fp, 'http://' + url + '/pool/xmldbdump?session_id=%s&task_id=%s&dry_run=%s' % (self.session_uuid, task_uuid['Value'], dry_run))
+        return
         conn = httplib.HTTP(url)
         conn.putrequest('PUT', '/pool/xmldbdump?session_id=%s&task_id=%s&dry_run=%s' % (self.session_uuid, task_uuid['Value'], dry_run))
         conn.putheader('Content-Length', str(size))
         conn.endheaders()
-        fp=open(filename, 'r')
         total = 0
         while True:
             leido = fp.read(16384)
@@ -510,14 +517,18 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         url = "http://" + self.wine.selected_ip + '/host_backup?session_id=%s&sr_id=%s&task_id=%s' % (self.session_uuid, ref, task_uuid['Value'])
         urllib.urlretrieve(url, filename)
 
-    def import_vm(self, ref, file):
+    def import_vm(self, ref, filename):
         #file = "pruebadebian.xva"
         import httplib
-        task_uuid = self.connection.task.create(self.session_uuid, "Importing VM", "Importing VM " + file)
+        task_uuid = self.connection.task.create(self.session_uuid, "Importing VM", "Importing VM " + filename)
         self.track_tasks[task_uuid['Value']] = "Import.VM"
 
-        size=os.stat(file)[6] 
+        size=os.stat(filename)[6] 
         url = self.wine.selected_ip
+        fp=open(filename, 'r')
+        put.putfile(fp, 'http://' + url + '/import?session_id=%s&sr_id=%s&task_id=%s' % (self.session_uuid, ref, task_uuid['Value']))
+        return
+
         conn = httplib.HTTP(url)
         conn.putrequest('PUT', '/import?session_id=%s&sr_id=%s&task_id=%s' % (self.session_uuid, ref, task_uuid['Value']))
         conn.putheader('Content-Type', 'text/plain')
@@ -1621,6 +1632,9 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             hosts = {}
             for host_patch in self.all_pool_patch[patch]["host_patches"]:
                 host = self.all_host_patch[host_patch]["host"]
+                if host not in hosts:
+                    hosts[host] = [] 
+
                 hosts[host] += self.all_pool_patch[patch]["host_patches"]
             if hosts.keys() == self.all_hosts.keys():
                 fullpatchs += self.all_pool_patch[patch]["name_label"] + "\n"
