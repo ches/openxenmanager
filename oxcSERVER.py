@@ -441,7 +441,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         #size=os.stat(file)[6] 
         url = self.wine.selected_ip
         conn = httplib.HTTP(url)
-        conn.putrequest('PUT', '/pool/xmldbdump?session_id=%s&task_id=%s&dry_run=true' % (self.session_uuid, task_uuid['Value']))
+        conn.putrequest('PUT', '/host_restore?session_id=%s&task_id=%s&dry_run=true' % (self.session_uuid, task_uuid['Value']))
         conn.putheader('Content-Type', 'text/plain')
         conn.endheaders()
 
