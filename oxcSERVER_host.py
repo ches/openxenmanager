@@ -208,7 +208,7 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
                         if pif:
                             if pif['VLAN'] != "-1":
                                 vlan = pif['VLAN']
-                            if self.all_pif_metrics[pif['metrics']]['carrier']: # Link status 
+                            if pif['metrics'] in self.all_pif_metrics and self.all_pif_metrics[pif['metrics']]['carrier']: # Link status 
                                 linkstatus = "Connected" 
                             if pif['MAC'] != "fe:ff:ff:ff:ff:ff":
                                 macaddress = pif['MAC']
