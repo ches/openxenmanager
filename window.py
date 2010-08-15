@@ -1173,7 +1173,9 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                             ref = self.xc_servers[self.selected_host].host_vm[self.selected_ref][0]
                         else:
                             ref = self.selected_ref
-                        self.tunnel = Tunnel(ref, self.xc_servers[self.selected_host].session_uuid, self.selected_ip)
+                        console_ref = self.xc_servers[self.selected_host].all_vms[ref]["consoles"][0]
+                        location = self.xc_servers[self.selected_host].all_console[console_ref]["location"]
+                        self.tunnel = Tunnel(self.xc_servers[self.selected_host].session_uuid, location)
                         port = self.tunnel.get_free_port()
                         Thread(target=self.tunnel.listen, args=(port,)).start()
                         time.sleep(1)
@@ -1394,7 +1396,6 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
 
 
                 dotcode += "}"                    
-
 
                 self.windowmap.set_dotcode(dotcode)
                 self.builder.get_object("viewportmap").show_all()

@@ -4,12 +4,12 @@ from threading import Thread
 import traceback
 
 class Tunnel:
-    def __init__(self, ref, session, ip):
+    def __init__(self, session, location):
         self.client_fd = None
         self.server_fd= None
-        self.ref = ref
+        self.ref = location[location.find("/", 8):] 
         self.session = session
-        self.ip = ip
+        self.ip = location[8:location.find("/", 8)] 
         self.halt = False
         self.translate = False
         self.key = None
@@ -20,7 +20,8 @@ class Tunnel:
         self.client_fd, addr = sock.accept()
         self.server_fd  = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_fd.connect((self.ip, 80))
-        self.server_fd.send("CONNECT /console?ref=%s&session_id=%s HTTP/1.1\r\n\r\n" % (self.ref, self.session))
+        # self.server_fd.send("CONNECT /console?ref=%s&session_id=%s HTTP/1.1\r\n\r\n" % (self.ref, self.session))
+        self.server_fd.send("CONNECT %s&session_id=%s HTTP/1.1\r\n\r\n" % (self.ref, self.session))
         data = self.server_fd.recv(17)
         data = self.server_fd.recv(24)
         data = self.server_fd.recv(35)
