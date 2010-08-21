@@ -40,7 +40,10 @@ class XPORT:
         del self.data
         self.rrdinfo = {}
         for field in ["rows", "step", "columns"]:
-            self.rrdinfo[field] = self.dom.getElementsByTagName(field)[0].childNodes[0].data
+            if self.dom.getElementsByTagName(field)[0].childNodes: 
+                self.rrdinfo[field] = self.dom.getElementsByTagName(field)[0].childNodes[0].data
+            else:
+                self.rrdinfo[field] = 0 
     def parse_ds(self):
         """
         Get "ds" (memory, cpu0..) from rrd
