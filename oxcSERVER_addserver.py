@@ -142,7 +142,7 @@ class oxcSERVERaddserver:
             if self.all_pools[pool]['name_label']:
                 poolroot =  treestore.append(treeroot, [gtk.gdk.pixbuf_new_from_file\
                     ("images/poolconnected_16.png"),\
-                    self.all_pools[pool]['name_label'], pool, "pool", "Running", self.host, pool, ['disconnect'], self.host])
+                    self.all_pools[pool]['name_label'], pool, "pool", "Running", self.host, pool, ['newvm', 'newstorage', 'importvm', 'disconnect'], self.host])
         if poolroot:
             relacion = {}
             for ref in self.all_hosts.keys():

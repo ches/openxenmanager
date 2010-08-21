@@ -2249,7 +2249,6 @@
                                                             </child>
                                                             <child>
                                                             <object class="GtkLabel" id="lblpooldescription">
-                                                            <property name="width_request">100</property>
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="xalign">0</property>
