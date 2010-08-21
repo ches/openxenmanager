@@ -166,17 +166,19 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 os.mkdir(os.path.join(os.path.expanduser("~"), ".config"))
             if not os.path.exists(os.path.join(os.path.expanduser("~"), ".config", "openxenmanager")):
                 os.mkdir(os.path.join(os.path.expanduser("~"), ".config", "openxenmanager"))
+            dirconfig =  os.path.join(os.path.expanduser("~"), ".config", "openxenmanager")
             pathconfig =  os.path.join(os.path.expanduser("~"), ".config", "openxenmanager", "oxc.conf")
         else: 
             if not os.path.exists(os.path.join(os.path.expanduser("~"), "openxenmanager")):
                 os.mkdir(os.path.join(os.path.expanduser("~"), "openxenmanager"))
+            dirconfig =  os.path.join(os.path.expanduser("~"), "openxenmanager")
             pathconfig =  os.path.join(os.path.expanduser("~"), "openxenmanager", "oxc.conf")
 
         if not os.path.exists(pathconfig):
             shutil.copy("oxc.conf", pathconfig)
             
         self.config = ConfigObj(pathconfig) 
-        
+        self.pathconfig = dirconfig 
         # Read from configuration saved servers
         if self.config['servers']['hosts']:
             self.config_hosts = self.config['servers']['hosts']

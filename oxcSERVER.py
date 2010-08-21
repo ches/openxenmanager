@@ -737,15 +737,16 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                         and name[:6] != "pif___":
                             ds[name[:3]].append([name, desc])
         if host:
-            if os.path.exists("host_rrds.rrd"):
-                os.unlink("host_rrds.rrd")
-            urllib.urlretrieve("http://%s/host_rrds?session_id=%s" % (ip, self.session_uuid), "host_rrds.rrd")
-            rrd = RRD("host_rrds.rrd")
+            if os.path.exists(os.path.join(self.wine.pathconfig, "host_rrds.rrd")):
+                os.unlink(os.path.join(self.wine.pathconfig, "host_rrds.rrd"))
+            urllib.urlretrieve("http://%s/host_rrds?session_id=%s" % (ip, self.session_uuid), os.path.join(self.wine.pathconfig, "host_rrds.rrd"))
+            rrd = RRD(os.path.join(self.wine.pathconfig, "host_rrds.rrd"))
         else:
-            if os.path.exists("vm_rrds.rrd"):
+            if os.path.exists(os.path.join(self.wine.pathconfig, "vm_rrds.rrd")):
                 os.unlink("vm_rrds.rrd")
-            urllib.urlretrieve("http://%s/vm_rrds?session_id=%s&uuid=%s" % (ip, self.session_uuid, uuid), "vm_rrds.rrd")
-            rrd = RRD("vm_rrds.rrd")
+                os.unlink(os.path.join(self.wine.pathconfig, "vm_rrds.rrd"))
+            urllib.urlretrieve("http://%s/vm_rrds?session_id=%s&uuid=%s" % (ip, self.session_uuid, uuid), os.path.join(self.wine.pathconfig, "vm_rrds.rrd"))
+            rrd = RRD(os.path.join(self.wine.pathconfig, "vm_rrds.rrd"))
         rrdinfo = rrd.get_data(period)
 
         def show_tic(value):
