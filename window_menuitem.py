@@ -619,7 +619,7 @@ class oxcWindowMenuItem:
         if self.selected_type == "vm":
             self.builder.get_object("dialogdeletevm").show()
             self.builder.get_object("dialogdeletevm").set_markup("Are you sure you want to delete VM '" + self.selected_name + "' ?")
-        elif self.selected_type == "template":
+        elif self.selected_type == "template" or self.selected_type == "custom_template":
             self.builder.get_object("dialogdeletevm").show()
             self.builder.get_object("dialogdeletevm").set_markup("Are you sure you want to delete template '" + self.selected_name + "' ?")
         elif self.selected_type == "storage":
