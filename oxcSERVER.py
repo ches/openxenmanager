@@ -743,7 +743,6 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             rrd = RRD(os.path.join(self.wine.pathconfig, "host_rrds.rrd"))
         else:
             if os.path.exists(os.path.join(self.wine.pathconfig, "vm_rrds.rrd")):
-                os.unlink("vm_rrds.rrd")
                 os.unlink(os.path.join(self.wine.pathconfig, "vm_rrds.rrd"))
             urllib.urlretrieve("http://%s/vm_rrds?session_id=%s&uuid=%s" % (ip, self.session_uuid, uuid), os.path.join(self.wine.pathconfig, "vm_rrds.rrd"))
             rrd = RRD(os.path.join(self.wine.pathconfig, "vm_rrds.rrd"))
@@ -892,9 +891,9 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         
         time.sleep(5)
         while not self.halt_performance:
-            if os.path.exists("update.rrd"):
-                os.unlink("update.rrd")
-            urllib.urlretrieve("http://%s/rrd_updates?session_id=%s&start=%s&cf=AVERAGE&interval=5&vm_uuid=%s" % (ip, self.session_uuid, int(time.time())-10, uuid), "update.rrd")
+            if os.path.exists(os.path.join(self.wine.pathconfig, "update.rrd")):
+                os.unlink(os.path.join(self.wine.pathconfig, "update.rrd"))
+            urllib.urlretrieve("http://%s/rrd_updates?session_id=%s&start=%s&cf=AVERAGE&interval=5&vm_uuid=%s" % (ip, self.session_uuid, int(time.time())-10, uuid), os.path.join(self.wine.pathconfig, "update.rrd"))
             rrd = XPORT("update.rrd")
             rrdinfo = rrd.get_data()
             
