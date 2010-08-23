@@ -63,6 +63,16 @@ class oxcSERVERnewvm:
                         self.all_storage[self.default_sr]['name_label'] + " on " + 
                         self.all_hosts[host]['name_label'], 
                         str(self.all_storage[self.default_sr]['shared']),ref])
+        else:
+            for vbd in self.all_vbd:
+                    if self.all_vbd[vbd]['VM'] == vm:
+                        if self.all_vbd[vbd]["type"] == "Disk":
+                            vdi =  self.all_vbd[vbd]["VDI"]
+                            list.append(["%0.2f" % (float(self.all_vdi[vdi]["virtual_size"])/1024/1024/1024),
+                                     self.all_storage[self.default_sr]['name_label'] + " on " +
+                                     self.all_hosts[host]['name_label'],
+                                      str(self.all_storage[self.default_sr]['shared']),ref])
+
 
     def fill_listnewvmdisk(self, list, host):
         list.clear()
@@ -109,7 +119,14 @@ class oxcSERVERnewvm:
                     disk += '<disk device="%d" size="%d" sr="%s" bootable="false" type="system" ionice="0" readonly="False" />' % (i, size, sr)
             i = i + 1
         disk += "</provision>"
-        other_config['disks'] = disk
+        setdisks = True
+        for vbd in self.all_vbd:
+            if self.all_vbd[vbd]['VM'] == data["ref"]:
+                if self.all_vbd[vbd]["type"] == "Disk":
+                    setdisks = False
+
+        if setdisks:
+            other_config['disks'] = disk
         selection.unselect_all()
         self.connection.VM.set_affinity(self.session_uuid, data['host'])
         if "postinstall" not in other_config:

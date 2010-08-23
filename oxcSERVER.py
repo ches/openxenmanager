@@ -1736,9 +1736,13 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             else:
                 state = "Not optimized"
             if "PV_drivers_up_to_date" in guest_metrics and "major" in guest_metrics["PV_drivers_version"]:
-                state = state + " (version " + guest_metrics['PV_drivers_version']['major'] + "."\
-                    + guest_metrics['PV_drivers_version']['minor'] + " build "\
-                    + guest_metrics['PV_drivers_version']['build'] + ")"
+                if "build" in guest_metrics['PV_drivers_version']:
+                    state = state + " (version " + guest_metrics['PV_drivers_version']['major'] + "."\
+                        + guest_metrics['PV_drivers_version']['minor'] + " build "\
+                        + guest_metrics['PV_drivers_version']['build'] + ")"
+                else:
+                    state = state + " (version " + guest_metrics['PV_drivers_version']['major'] + "."\
+                        + guest_metrics['PV_drivers_version']['minor'] + " build )"
             else:
                 state = "<b>Tools not installed</b>"    
             labels["lblvmvirtstate"] = state
