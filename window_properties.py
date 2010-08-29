@@ -216,6 +216,10 @@ class oxcWindowProperties:
                 return False
 
         elif self.selected_type == "vm" or self.selected_type == "template" or self.selected_type == "custom_template":
+            if "HVM_shadow_multiplier" in self.xc_servers[self.selected_host].all_vms[self.selected_ref] and \
+               "HVM_boot_policy" in self.xc_servers[self.selected_host].all_vms[self.selected_ref] and \
+               self.xc_servers[self.selected_host].all_vms[self.selected_ref]["HVM_boot_policy"]:
+                vm.append("advancedoptions")
             # same
             if not vm.count(aka):
                 return False
@@ -331,11 +335,11 @@ class oxcWindowProperties:
            path = self.propmodelfilter.convert_path_to_child_path(path)
            self.selected_prop_path = path
            iter = self.listprop.get_iter(path)
-           if path[0] < 9:
+           if path[0] < 9 or self.listprop.get_value(iter, 2) == "advancedoptions":
                self.builder.get_object("tabprops").set_current_page(self.listprop.get_value(iter, 3))
            else:
                self.builder.get_object("tabprops").set_current_page(9)
-           if path[0] > 8:
+           if path[0] > 8 and self.listprop.get_value(iter, 2) != "advancedoptions":
                if gtk.Buildable.get_name(self.selected_widget) == "btstgproperties":
                    liststorage = self.builder.get_object("liststg")
                    treestorage = self.builder.get_object("treestg")
@@ -637,6 +641,15 @@ class oxcWindowProperties:
             if change:
                 self.xc_servers[self.selected_host].set_vm_other_config(self.selected_ref, other_config)
 
+        if "HVM_shadow_multiplier" in vm:
+            if self.builder.get_object("optimizegeneraluse").get_active():
+                multiplier = "1.00"
+            elif self.builder.get_object("optimizeforxenapp").get_active():
+                multiplier = "4.00"
+            else:
+                multiplier = self.builder.get_object("memorymultiplier").get_text()
+            if multiplier != str(vm["HVM_shadow_multiplier"]):
+                self.xc_servers[self.selected_host].set_vm_memory_multiplier(self.selected_ref, multiplier)
 
         self.builder.get_object("dialogvmprop").hide()
         self.selected_widget = None
@@ -938,6 +951,14 @@ class oxcWindowProperties:
         treehomeserver.set_cursor((0,), treehomeserver.get_column(0))
         treehomeserver.get_selection().select_path((0,))
 
+        if "HVM_shadow_multiplier" in vm:
+            self.builder.get_object("memorymultiplier").set_text(str(vm["HVM_shadow_multiplier"]))
+            if float(vm["HVM_shadow_multiplier"]) == 1.00:
+                self.builder.get_object("optimizegeneraluse").set_active(True)
+            elif float(vm["HVM_shadow_multiplier"])  == 4.00:
+                self.builder.get_object("optimizeforxenapp").set_active(True)
+            else:
+                self.builder.get_object("optimizemanually").set_active(True)
 
         self.propmodelfilter.refilter()
 
@@ -1007,6 +1028,7 @@ class oxcWindowProperties:
         elif self.selected_type == "pool":
             other_config = self.fill_pool_properties()
         elif self.selected_type == "vm" or self.selected_type == "template" or self.selected_type == "custom_template":
+            self.selected_widget = widget
             other_config = self.fill_vm_properties()
 
         self.other_config = other_config 

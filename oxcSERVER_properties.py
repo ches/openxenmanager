@@ -293,6 +293,12 @@ class oxcSERVERproperties:
            self.track_tasks[res['Value']] = ref
        else:
            print res        
+    def set_vm_memory_multiplier(self, ref, multiplier):
+       res = self.connection.VM.set_HVM_shadow_multiplier(self.session_uuid, ref, float(multiplier))
+       if "Value" in res:
+           self.track_tasks[res['Value']] = ref
+       else:
+           print res
 
     def set_vm_boot_params(self, ref, order):
        boot_params = self.all_vms[ref]['HVM_boot_params']

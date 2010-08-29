@@ -563,7 +563,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         for i in range(54,68):
             self.builder.get_object("eventbox" + str(i)).modify_bg(gtk.STATE_NORMAL, white)
         self.builder.get_object("eventbox67").modify_bg(gtk.STATE_NORMAL, blue)
-        for i in range(68,100):
+        for i in range(68,102):
             self.builder.get_object("eventbox" + str(i)).modify_bg(gtk.STATE_NORMAL, white)
         self.builder.get_object("eventbox76").modify_bg(gtk.STATE_NORMAL, blue)
 
