@@ -753,6 +753,17 @@ class oxcWindowMenuItem:
         self.config.write()
         # Call to "refilter" to hide/show the templates
         self.modelfilter.refilter()
+
+    def on_checkshowhiddenvms_toggled(self, widget, data=None):
+        """
+        Enable or disable show templates on left tree
+        """
+        # Save enable or disable to configuration
+        self.config["gui"]["show_hidden_vms"] = widget.get_active()
+        self.config.write()
+        # Call to "refilter" to hide/show the templates
+        self.modelfilter.refilter()
+
     def on_checkshowtoolbar_toggled(self, widget, data=None):
         """
         Enable or disable show top toolbar

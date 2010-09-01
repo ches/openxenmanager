@@ -894,7 +894,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             if os.path.exists(os.path.join(self.wine.pathconfig, "update.rrd")):
                 os.unlink(os.path.join(self.wine.pathconfig, "update.rrd"))
             urllib.urlretrieve("http://%s/rrd_updates?session_id=%s&start=%s&cf=AVERAGE&interval=5&vm_uuid=%s" % (ip, self.session_uuid, int(time.time())-10, uuid), os.path.join(self.wine.pathconfig, "update.rrd"))
-            rrd = XPORT("update.rrd")
+            rrd = XPORT(os.path.join(self.wine.pathconfig, "update.rrd"))
             rrdinfo = rrd.get_data()
             
             for key in rrdinfo:

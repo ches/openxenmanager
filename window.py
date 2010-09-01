@@ -268,12 +268,16 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         self.headlabel.set_label(self.selected_name)
         self.headimage.set_from_pixbuf(gtk.gdk.pixbuf_new_from_file("images/xen.gif"))
 
+        if "show_hidden_vms" not in self.config["gui"]:
+            self.config["gui"]["show_hidden_vms"] = "False"
+            self.config.write()
         # Set menuitem checks to value from configuration
         self.builder.get_object("checkshowxstpls").set_active(self.config["gui"]["show_xs_templates"] == "True")
         self.builder.get_object("checkshowcustomtpls").set_active(self.config["gui"]["show_custom_templates"] == "True")
         self.builder.get_object("checkshowlocalstorage").set_active(self.config["gui"]["show_local_storage"] == "True")
         self.builder.get_object("checkshowtoolbar").set_active(self.config["gui"]["show_toolbar"] == "True")
         self.builder.get_object("checksetsyle").set_active(self.config["gui"]["set_style"] == "True")
+        self.builder.get_object("checkshowhiddenvms").set_active(self.config["gui"]["show_hidden_vms"] == "True")
 
         if "maps" in self.config:
             for check in self.config["maps"]:
@@ -738,6 +742,10 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         if len(self.txttreefilter.get_text())>0 and \
            ((seltype == "vm" or seltype == "template" or seltype == "storage" or seltype == "custom_template") and 
             self.treestore.get_value(iter_ref, 1).lower().count(self.txttreefilter.get_text().lower()) == 0):
+             return False
+        if seltype == "vm" and str(self.config["gui"]["show_hidden_vms"]) == "False" and host and ref and \
+                self.xc_servers[host].all_vms[ref].get("other_config") and \
+                self.xc_servers[host].all_vms[ref]["other_config"].get("HideFromXenCenter"):
              return False
         if seltype == "template":
              if self.config["gui"]["show_xs_templates"] == "False" or \

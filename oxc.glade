@@ -919,6 +919,14 @@
                                 <signal name="toggled" handler="on_checkshowlocalstorage_toggled"/>
                               </object>
                             </child>
+                            <child>
+                              <object class="GtkCheckMenuItem" id="checkshowhiddenvms">
+                                <property name="visible">True</property>
+                                <property name="label" translatable="yes">Hidden VMs</property>
+                                <property name="use_underline">True</property>
+                                <signal name="toggled" handler="on_checkshowhiddenvms_toggled"/>
+                              </object>
+                            </child>
                           </object>
                         </child>
                       </object>
