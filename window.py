@@ -745,7 +745,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
              return False
         if seltype == "vm" and str(self.config["gui"]["show_hidden_vms"]) == "False" and host and ref and \
                 self.xc_servers[host].all_vms[ref].get("other_config") and \
-                self.xc_servers[host].all_vms[ref]["other_config"].get("HideFromXenCenter"):
+                self.xc_servers[host].all_vms[ref]["other_config"].get("HideFromXenCenter") == True:
              return False
         if seltype == "template":
              if self.config["gui"]["show_xs_templates"] == "False" or \
