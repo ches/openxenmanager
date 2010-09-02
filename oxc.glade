@@ -10076,7 +10076,10 @@ Quality of Server (QoS)</property>
     <property name="window_position">center</property>
     <property name="type_hint">normal</property>
     <property name="program_name">OpenXenManager</property>
-    <property name="copyright" translatable="yes">Copyright &#xA9; 2009-2010 Alberto Gonz&#xE1;lez 
+    <property name="copyright" translatable="yes">$Rev$:     Revision of last commit
+$Author$:  Author of last commit
+$Date$:    Date of last commit
+Copyright &#xA9; 2009-2010 Alberto Gonz&#xE1;lez 
 Contact via mail: alberto@pesadilla.org</property>
     <property name="comments" translatable="yes">Free... Fastest</property>
     <property name="website">http://www.openxenmanager.com</property>
