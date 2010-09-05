@@ -402,6 +402,44 @@ class oxcSERVERmenuitem:
         gtk.gdk.threads_leave()
     def remove_server_from_pool(self, ref):
         self.connection.pool.eject(self.session_uuid, ref)
+
+    def shutdown_server(self, ref):
+        res = self.connection.host.disable(self.session_uuid, ref)
+        if "Value" in res:
+            res = self.connection.host.shutdown(self.session_uuid, ref)
+            if "Value" in res:
+                self.track_tasks[res['Value']] = self.host_vm[ref][0]
+                return "OK"
+            else:
+                self.wine.push_alert("%s: %s" % (res["ErrorDescription"][0], res["ErrorDescription"][1]))
+        else:
+            self.wine.push_alert("%s: %s" % (res["ErrorDescription"][0], res["ErrorDescription"][1]))
+
+
+    def reboot_server(self, ref):
+        res = self.connection.host.disable(self.session_uuid, ref)
+        if "Value" in res:
+            res = self.connection.host.reboot(self.session_uuid, ref)
+            if "Value" in res:
+                self.track_tasks[res['Value']] = self.host_vm[ref][0]
+                return "OK"
+            else:
+                self.wine.push_alert("%s: %s" % (res["ErrorDescription"][0], res["ErrorDescription"][1]))
+        else:
+            self.wine.push_alert("%s: %s" % (res["ErrorDescription"][0], res["ErrorDescription"][1]))
+
+    def set_license_host(self, ref, licensehost, licenseport, edition):
+        res = self.connection.host.set_license_server(self.session_uuid, ref, {"address": licensehost, "port": licenseport})
+        if "Value" in res:
+            res = self.connection.host.apply_edition(self.session_uuid, ref, edition)
+            if not "Value" in res:
+                self.wine.push_alert("%s: %s" % (res["ErrorDescription"][0], res["ErrorDescription"][1]))
+        else:
+            #self.wine.builder.get_object("warninglicense").show()
+            self.wine.push_alert("%s: %s" % (res["ErrorDescription"][0], res["ErrorDescription"][1]))
+
+
+
     def add_server_to_pool(self, widget, ref, server, server_ref, master_ip):
         self.wine.xc_servers[server].all_hosts[server_ref]
         user = self.wine.xc_servers[server].user

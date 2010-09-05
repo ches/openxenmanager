@@ -567,7 +567,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         for i in range(54,68):
             self.builder.get_object("eventbox" + str(i)).modify_bg(gtk.STATE_NORMAL, white)
         self.builder.get_object("eventbox67").modify_bg(gtk.STATE_NORMAL, blue)
-        for i in range(68,102):
+        for i in range(68,105):
             self.builder.get_object("eventbox" + str(i)).modify_bg(gtk.STATE_NORMAL, white)
         self.builder.get_object("eventbox76").modify_bg(gtk.STATE_NORMAL, blue)
 
@@ -582,7 +582,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                      "removeserverfrompool", "repairstorage", "menu_add_server",
                      "menu_add_to_pool", "menu_m_add_server", "menu_server_add_to_pool", 
                      "menu_pool_migrate", "migratetoolhelp","filesavereport", "updatemanager",
-                     "filenewupdate", "wcustomfields", "fileexportmap" 
+                     "filenewupdate", "wcustomfields", "fileexportmap", "dialoglicensehost"
                      ]:
             self.builder.get_object(widget).modify_bg(gtk.STATE_NORMAL, blue)
 
@@ -639,7 +639,8 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 "btgraphoneweek", "btgraphoneyear", "btsendctraltdel", "btenterfullscreen", "btsendctrlaltdel2", 
                 "btexitfullscreen", "bteditcustomfields", "addcustomfield", "deletecustomfield", "cancelwcustomfields",
                 "acceptwcustomfields", "btexportmap", "rescanisos", "btnewstgsaoescan", "btsnapnewvm",
-                "btsnapcreatetpl", "btsnapexport", "btsnapdelete", "btsnaprevert", "acceptdialogrevert", "canceldialogrevert"
+                "btsnapcreatetpl", "btsnapexport", "btsnapdelete", "btsnaprevert", "acceptdialogrevert", "canceldialogrevert",
+                "acceptconfirmshutdown", "cancelconfirmshutdown", "acceptlicensehost", "cancellicensehost"
                 ]:
             self.builder.get_object(button).modify_bg(gtk.STATE_NORMAL, blue)
             self.builder.get_object(button).modify_bg(gtk.STATE_ACTIVE, blue)
@@ -719,6 +720,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         self.builder.get_object("reattachformatiscsidisk").modify_bg(gtk.STATE_NORMAL, blue)
         self.builder.get_object("dialog-vbox39").modify_bg(gtk.STATE_NORMAL, blue)
         self.builder.get_object("confirmreboot").modify_bg(gtk.STATE_NORMAL, blue)
+        self.builder.get_object("confirmshutdown").modify_bg(gtk.STATE_NORMAL, blue)
         self.builder.get_object("hostdmesg").modify_bg(gtk.STATE_NORMAL, blue)
  
 

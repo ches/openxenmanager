@@ -979,6 +979,8 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         vboxchildlabel2.set_selectable(True)
         vboxchildlabel3 = gtk.Label()
         vboxchildlabel3.set_selectable(True)
+        vboxchildlabel3.set_size_request(600,0)
+        vboxchildlabel3.set_line_wrap(True)
         vboxchildlabel4 = gtk.Label()
         vboxchildlabel4.set_selectable(True)
         #FIXME
@@ -2402,15 +2404,22 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
 
     def update_host_status(self, model, path, iter_ref, user_data):
         if self.treestore.get_value(iter_ref, 2) == self.filter_uuid:
-            gtk.gdk.threads_enter()
-            host = self.all_hosts[self.host_filter_uuid()]
-            self.treestore.set_value(iter_ref,  1, \
-               host['name_label']
-               )
-            self.wine.update_tabs()
-            self.wine.builder.get_object("headimage").set_from_pixbuf(self.treestore.get_value(iter_ref, 0))
-            self.wine.builder.get_object("headlabel").set_label(self.treestore.get_value(iter_ref,  1))
-            gtk.gdk.threads_leave()
+                gtk.gdk.threads_enter()
+                if self.treestore.get_value(iter_ref, 1):
+                    host = self.all_hosts[self.host_filter_uuid()]
+                    self.treestore.set_value(iter_ref,  1, \
+                       host['name_label']
+                       )
+                    if host["enabled"]:
+                        self.treestore.set_value(iter_ref, 0,  gtk.gdk.pixbuf_new_from_file("images/tree_connected_16.png"))
+                    else:
+                        self.treestore.set_value(iter_ref, 0,  gtk.gdk.pixbuf_new_from_file("images/tree_disabled_16.png"))
+                    self.wine.update_tabs()
+                    self.wine.update_toolbar()
+                    self.wine.update_menubar()
+                    self.wine.builder.get_object("headimage").set_from_pixbuf(self.treestore.get_value(iter_ref, 0))
+                    self.wine.builder.get_object("headlabel").set_label(self.treestore.get_value(iter_ref,  1))
+                gtk.gdk.threads_leave()
 
     def delete_host(self, model, path, iter_ref, user_data):
         if self.treestore.get_value(iter_ref, 2) == self.filter_uuid:

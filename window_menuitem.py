@@ -22,6 +22,7 @@ import gtk
 from oxcSERVER import *
 import xtea
 from thread import *
+import pdb
 class oxcWindowMenuItem:
     """
     Class used to manage functions called from menuitems
@@ -428,12 +429,19 @@ class oxcWindowMenuItem:
         """
         "Clean shutdown" menuitem pressed on right click menu
         """
-        self.xc_servers[self.selected_host].clean_shutdown_vm(self.selected_ref)
+        if self.selected_type == "vm":
+            self.xc_servers[self.selected_host].clean_shutdown_vm(self.selected_ref)
+        elif self.selected_type == "server" or self.selected_type == "host":
+            self.on_menuitem_server_shutdown_activate(widget, data)
     def on_m_clean_reboot_activate(self, widget, data=None):
         """
         "Clean reboot" menuitem pressed on right click menu
         """
-        self.xc_servers[self.selected_host].clean_reboot_vm(self.selected_ref)
+        if self.selected_type == "vm":
+            self.xc_servers[self.selected_host].clean_reboot_vm(self.selected_ref)
+        elif self.selected_type == "server" or self.selected_type == "host":
+            self.on_menuitem_server_reboot_activate(widget, data)
+
     def on_m_suspend_activate(self, widget, data=None):
         """
         "Suspend" menuitem pressed on right click menu
@@ -806,7 +814,7 @@ class oxcWindowMenuItem:
         # Call to "refilter" to hide/show custom templates
         self.modelfilter.refilter()
     # MENUBAR
-    def on_menuitem_maintenancemode_activate(self, widget, data=None):
+    def on_menuitem_entermaintenancemode_activate(self, widget, data=None):
         """
         "Enter Maintenance Mode" on menuitem is pressed
         """
@@ -821,10 +829,16 @@ class oxcWindowMenuItem:
 
     def on_acceptmaintenancemode_clicked(self, widget, data=None):
         """
-        Pressed "Cancel" button on maintenance window
+        Pressed "Accept" button on maintenance window
         """
-        self.xc_servers[self.selected_host].host_evacuate(self.selected_ref)
+        self.xc_servers[self.selected_host].enter_maintancemode(self.selected_ref)
         self.builder.get_object("maintenancemode").hide()
+
+    def on_menuitem_exitmaintenancemode_activate(self, widget, data=None):
+        """
+        "Exit Maintenance Mode" on menuitem is pressed
+        """
+        self.xc_servers[self.selected_host].exit_maintancemode(self.selected_ref)
 
     def on_menuitem_vm_startrecovery_activate(self, widget, data=None):
         """
@@ -1033,19 +1047,52 @@ class oxcWindowMenuItem:
         self.builder.get_object("acceptchangepassword").set_sensitive(False)
         label = self.builder.get_object("lblchangepw").get_label()
         self.builder.get_object("lblchangepw").set_label(label.replace("{0}", self.selected_name))
+
     def on_menuitem_install_xslic_activate(self, widget, data=None):
         """
         "Install License Key" menu item is pressed
         """
         # Show file chooser
-        self.builder.get_object("filterfilelicensekey").add_pattern("*.xslic")
-        self.builder.get_object("filelicensekey").show()
+        if self.xc_servers[self.selected_host].all_hosts[self.selected_ref].get("license_server"):
+            licenserver =  self.xc_servers[self.selected_host].all_hosts[self.selected_ref].get("license_server")
+            self.builder.get_object("licensehost").set_text(licenserver["address"])
+            self.builder.get_object("licenseport").set_text(licenserver["port"])
+            self.builder.get_object("dialoglicensehost").show()
+
+
+        else:
+            self.builder.get_object("filterfilelicensekey").add_pattern("*.xslic")
+            self.builder.get_object("filelicensekey").show()
+
+    def on_cancellicensehost_clicked(self, widget, data=None):
+        """
+        Function called when you press cancel on license host dialog 
+        """
+        self.builder.get_object("dialoglicensehost").hide()
+
+    def on_acceptlicensehost_clicked(self, widget, data=None):
+        """
+        Function called when you press cancel on license host dialog 
+        """
+        edition = "advanced"
+        for licwidget in ["advanced", "enterprise", "platinum", "enterprise-xd"]:
+            if self.builder.get_object(licwidget).get_active():
+                edition = licwidget
+                break
+
+        licensehost = self.builder.get_object("licensehost").get_text()
+        licenseport = self.builder.get_object("licenseport").get_text()
+        self.xc_servers[self.selected_host].set_license_host(self.selected_ref, licensehost, licenseport, edition)
+        self.builder.get_object("dialoglicensehost").hide()
+
+
     def on_cancelfilelicensekey_clicked(self, widget, data=None):
         """
         Function called when you press cancel on filchooser "install license key"
         """
         # Hide the file chooser
         self.builder.get_object("filelicensekey").hide()
+
     def on_openfilelicensekey_clicked(self, widget, data=None):
         """
         Function called when you press open on filchooser "install license key"
@@ -1128,6 +1175,7 @@ class oxcWindowMenuItem:
         filename = self.builder.get_object("filerestoreserver").get_filename()
         self.xc_servers[self.selected_host].thread_restore_server(self.selected_ref, filename, self.selected_name)
         self.builder.get_object("filerestoreserver").hide()
+
     def on_menuitem_server_reboot_activate(self, widget, data=None):
         """
         "Reboot server" menu item is pressed
@@ -1138,6 +1186,38 @@ class oxcWindowMenuItem:
         Function called when you cancel dialog for reboot server
         """
         self.builder.get_object("confirmreboot").hide()
+
+    def on_acceptconfirmreboot_clicked(self, widget, data=None):
+        """
+        Function called when you cancel dialog for reboot server
+        """
+        res = self.xc_servers[self.selected_host].reboot_server(self.selected_ref)
+        #res = "OK"
+        if res == "OK":
+            self.on_m_disconnect_activate(widget, data)
+        self.builder.get_object("confirmreboot").hide()
+
+    def on_menuitem_server_shutdown_activate(self, widget, data=None):
+        """
+        "Reboot server" menu item is pressed
+        """
+        self.builder.get_object("confirmshutdown").show()
+
+    def on_acceptconfirmshutdown_clicked(self, widget, data=None):
+        """
+        "Reboot server" menu item is pressed
+        """
+        res = self.xc_servers[self.selected_host].shutdown_server(self.selected_ref)
+        if res == "OK":
+            self.on_m_disconnect_activate(widget, data)
+        self.builder.get_object("confirmshutdown").hide()
+
+    def on_cancelconfirmshutdown_clicked(self, widget, data=None):
+        """
+        Function called when you cancel dialog for shutdown server
+        """
+        self.builder.get_object("confirmshutdown").hide()
+
     def on_menuitem_checkforupdates_activate(self, widget, data=None):
         """
         "Check for Updates" menu item is pressed (help)
@@ -1363,7 +1443,7 @@ class oxcWindowMenuItem:
                 show["menu6"] =  ["menuitem_addserver", "menuitem_disconnectall", "menuitem_disconnect", "menuitem_forget",\
                         "menuitem_remove",  "menuitem_newvm", "menuitem_server_prop", "menuitem_mgmt_ifs", "menuitem_dmesg",\
                         "menuitem_server_reboot", "menuitem_server_shutdown",  "menuitem_changepw","menuitem_backupserver", \
-                        "menuitem_restoreserver","menuitem_install_xslic","menuitem_maintenancemode","menuitem_server_add_to_pool", \
+                        "menuitem_restoreserver","menuitem_install_xslic","menuitem_server_add_to_pool", \
                         "menuitem_downloadlogs"
                         ]
                 show["menu7"] =  ["menuitem_importvm2", "menuitem_newvm2"]
@@ -1371,6 +1451,12 @@ class oxcWindowMenuItem:
                 show["menu9"] =  ["menuitem_tpl_import"]
                 show["menu10"] =  ["menuitem_options","menuitem_tools_alerts", "menuitem_takescreenshot", "menuitem_migratetool", "menuitem_tools_statusreport", "menuitem_tools_updatemanager"]
                 pool_ref = self.xc_servers[self.selected_host].all_pools.keys()[0]
+                
+                if self.xc_servers[self.selected_host].all_hosts[self.selected_ref]["enabled"]:
+                    show["menu6"].append("menuitem_entermaintenancemode")
+                else:
+                    show["menu6"].append("menuitem_exitmaintenancemode")
+                
                 if self.xc_servers[self.selected_host].all_pools[pool_ref]["name_label"] != '' and \
                         self.xc_servers[self.selected_host].all_pools[pool_ref]["master"] != self.selected_ref:
                     show["menu5"].append("menuitem_pool_remove_server") 

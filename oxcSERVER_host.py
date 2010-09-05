@@ -110,12 +110,29 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
             # vms[vm][0]
             list.append([gtk.gdk.pixbuf_new_from_file("images/tree_running_16.png"), self.all_vms[vm]['name_label'], \
                 "Suspend or shutdown VM"])
-    def host_evacuate(self, ref):
+    def enter_maintancemode(self, ref):
         res = self.connection.Async.host.evacuate(self.session_uuid, ref)
         if "Value" in res:
             self.track_tasks[res['Value']] = self.host_vm[ref][0]
+            self.connection.host.disable(self.session_uuid, ref)
+            self.connection.host.remove_from_other_config(self.session_uuid, ref, "MAINTENANCE_MODE_EVACUATED_VMS_MIGRATED")
+            self.connection.host.remove_from_other_config(self.session_uuid, ref, "MAINTENANCE_MODE_EVACUATED_VMS_HALTED")
+            self.connection.host.remove_from_other_config(self.session_uuid, ref, "MAINTENANCE_MODE_EVACUATED_VMS_SUSPENDED")
+            self.connection.host.remove_from_other_config(self.session_uuid, ref, "MAINTENANCE_MODE")
+            self.connection.host.add_to_other_config(self.session_uuid, ref, "MAINTENANCE_MODE_EVACUATED_VMS_MIGRATED", "")
+            self.connection.host.add_to_other_config(self.session_uuid, ref, "MAINTENANCE_MODE_EVACUATED_VMS_HALTED", "")
+            self.connection.host.add_to_other_config(self.session_uuid, ref, "MAINTENANCE_MODE_EVACUATED_VMS_SUSPENDED", "")
+            self.connection.host.add_to_other_config(self.session_uuid, ref, "MAINTENANCE_MODE", True)
         else:
             print res
+
+    def exit_maintancemode(self, ref):
+        self.connection.host.enable(self.session_uuid, ref)
+        self.connection.host.remove_from_other_config(self.session_uuid, ref, "MAINTENANCE_MODE_EVACUATED_VMS_MIGRATED")
+        self.connection.host.remove_from_other_config(self.session_uuid, ref, "MAINTENANCE_MODE_EVACUATED_VMS_HALTED")
+        self.connection.host.remove_from_other_config(self.session_uuid, ref, "MAINTENANCE_MODE_EVACUATED_VMS_SUSPENDED")
+        self.connection.host.remove_from_other_config(self.session_uuid, ref, "MAINTENANCE_MODE")
+
 
     def thread_restore_server(self, ref, filename, name):
        Thread(target=self.restore_server, args=(ref, filename, name)).start()  

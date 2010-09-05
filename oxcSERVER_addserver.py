@@ -161,10 +161,10 @@ class oxcSERVERaddserver:
                     hostroot[h] = treestore.append(poolroot, [gtk.gdk.pixbuf_new_from_file\
                                 ("images/tree_connected_16.png"),\
                                 host, host_uuid, "host", "Running", self.host, h,\
-                                ['newvm', 'importvm', 'newstorage', 'clean_reboot', 'shutdown'], host_address])
+                                ['newvm', 'importvm', 'newstorage', 'clean_reboot', 'clean_shutdown', 'shutdown'], host_address])
                 else:
                     hostroot[h] = treestore.append(poolroot, [gtk.gdk.pixbuf_new_from_file\
-                                ("images/tree_disconnected_16.png"),\
+                                ("images/tree_disabled_16.png"),\
                                 host, host_uuid, "host", "Disconnected", self.host, h, \
                                 [], host_address])
             root = poolroot
@@ -172,10 +172,17 @@ class oxcSERVERaddserver:
            host_uuid = self.all_hosts[self.all_hosts.keys()[0]]['uuid']
            host = self.all_hosts[self.all_hosts.keys()[0]]['name_label']
            host_address = self.all_hosts[self.all_hosts.keys()[0]]['address']
-           hostroot[self.all_hosts.keys()[0]] = treestore.append(treeroot, [gtk.gdk.pixbuf_new_from_file\
-                        ("images/tree_connected_16.png"),\
-                        host, host_uuid, "host", "Running", self.host, self.all_hosts.keys()[0], 
-                        ['newvm', 'importvm', 'newstorage', 'clean_reboot', 'shutdown', 'disconnect'], host_address])
+           host_enabled = self.all_hosts[self.all_hosts.keys()[0]]['enabled']
+           if host_enabled:
+               hostroot[self.all_hosts.keys()[0]] = treestore.append(treeroot, [gtk.gdk.pixbuf_new_from_file\
+                            ("images/tree_connected_16.png"),\
+                            host, host_uuid, "host", "Running", self.host, self.all_hosts.keys()[0], 
+                            ['newvm', 'importvm', 'newstorage', 'clean_reboot', 'clean_shutdown', 'shutdown', 'disconnect'], host_address])
+           else:
+               hostroot[self.all_hosts.keys()[0]] = treestore.append(treeroot, [gtk.gdk.pixbuf_new_from_file\
+                            ("images/tree_disabled_16.png"),\
+                            host, host_uuid, "host", "Running", self.host, self.all_hosts.keys()[0], 
+                            ['newvm', 'importvm', 'newstorage', 'clean_reboot', 'clean_shutdown', 'shutdown', 'disconnect'], host_address])
            root = hostroot[self.all_hosts.keys()[0]]
         self.hostname = host
         self.hostroot = hostroot

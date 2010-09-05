@@ -1132,7 +1132,7 @@
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">Shutdown</property>
                         <property name="use_underline">True</property>
-                        <signal name="activate" handler="not_implemented_yet"/>
+                        <signal name="activate" handler="on_menuitem_server_shutdown_activate"/>
                       </object>
                     </child>
                     <child>
@@ -1230,7 +1230,7 @@
                     <child>
                       <object class="GtkMenuItem" id="menuitem_install_xslic">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Install License Key...</property>
+                        <property name="label" translatable="yes">Assign License Key...</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="on_menuitem_install_xslic_activate"/>
                       </object>
@@ -1273,11 +1273,19 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkMenuItem" id="menuitem_maintenancemode">
+                      <object class="GtkMenuItem" id="menuitem_entermaintenancemode">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">Enter Maintenance Mode</property>
                         <property name="use_underline">True</property>
-                        <signal name="activate" handler="on_menuitem_maintenancemode_activate"/>
+                        <signal name="activate" handler="on_menuitem_entermaintenancemode_activate"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="menuitem_exitmaintenancemode">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Exit Maintance Mode</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_menuitem_exitmaintenancemode_activate"/>
                       </object>
                     </child>
                   </object>
@@ -19045,7 +19053,7 @@ Warning: to prevent data loss you must ensure that the LUN is not in use by any 
     <property name="type_hint">normal</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="message_type">question</property>
-    <property name="text" translatable="yes">Are you sure you want to reboot server?  This will also shut down all the VMs on it.</property>
+    <property name="text" translatable="yes">Are you sure you want to reboot server?   Before that you should shutdown all vms.</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox62">
         <property name="visible">True</property>
@@ -19062,6 +19070,7 @@ Warning: to prevent data loss you must ensure that the LUN is not in use by any 
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_acceptconfirmreboot_clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -23838,6 +23847,356 @@ Before do a revert is recommended take a snapshot with current state.</property>
     <action-widgets>
       <action-widget response="0">acceptdialogrevert</action-widget>
       <action-widget response="0">canceldialogrevert</action-widget>
+    </action-widgets>
+  </object>
+  <object class="GtkMessageDialog" id="confirmshutdown">
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">Confirm</property>
+    <property name="window_position">center</property>
+    <property name="type_hint">normal</property>
+    <property name="skip_taskbar_hint">True</property>
+    <property name="message_type">question</property>
+    <property name="text" translatable="yes">Are you sure you want to shutdown server?  Before that you should shutdown all vms.</property>
+    <child internal-child="vbox">
+      <object class="GtkVBox" id="dialog-vbox100">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="dialog-action_area99">
+            <property name="visible">True</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="acceptconfirmshutdown">
+                <property name="label">gtk-ok</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_acceptconfirmshutdown_clicked"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="cancelconfirmshutdown">
+                <property name="label">gtk-cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_cancelconfirmshutdown_clicked"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="0">acceptconfirmshutdown</action-widget>
+      <action-widget response="0">cancelconfirmshutdown</action-widget>
+    </action-widgets>
+  </object>
+  <object class="GtkDialog" id="dialoglicensehost">
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">License Host</property>
+    <property name="window_position">center</property>
+    <property name="type_hint">normal</property>
+    <property name="has_separator">False</property>
+    <child internal-child="vbox">
+      <object class="GtkVBox" id="dialog-vbox101">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child>
+          <object class="GtkEventBox" id="eventbox102">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkFixed" id="fixed148">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label106">
+                    <property name="width_request">450</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">To assign a new license to the servers you selected, choose the license edition, enter the license server details, and then click OK</property>
+                    <property name="wrap">True</property>
+                  </object>
+                  <packing>
+                    <property name="x">10</property>
+                    <property name="y">10</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkFrame" id="frame23">
+                    <property name="width_request">400</property>
+                    <property name="height_request">130</property>
+                    <property name="visible">True</property>
+                    <property name="label_xalign">0</property>
+                    <property name="shadow_type">none</property>
+                    <child>
+                      <object class="GtkAlignment" id="alignment54">
+                        <property name="visible">True</property>
+                        <property name="left_padding">12</property>
+                        <child>
+                          <object class="GtkEventBox" id="eventbox103">
+                            <property name="visible">True</property>
+                            <child>
+                              <object class="GtkFixed" id="fixed149">
+                                <property name="visible">True</property>
+                                <child>
+                                  <object class="GtkRadioButton" id="advanced">
+                                    <property name="label" translatable="yes">Citrix XenServer Advanced Edition</property>
+                                    <property name="width_request">250</property>
+                                    <property name="height_request">20</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="active">True</property>
+                                    <property name="draw_indicator">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="x">10</property>
+                                    <property name="y">5</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="enterprise">
+                                    <property name="label" translatable="yes">Citrix XenServer Enterprise Edition</property>
+                                    <property name="width_request">300</property>
+                                    <property name="height_request">20</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="active">True</property>
+                                    <property name="draw_indicator">True</property>
+                                    <property name="group">advanced</property>
+                                  </object>
+                                  <packing>
+                                    <property name="x">10</property>
+                                    <property name="y">30</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="platinum">
+                                    <property name="label" translatable="yes">Citrix XenServer Platinum Edition</property>
+                                    <property name="width_request">300</property>
+                                    <property name="height_request">20</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="active">True</property>
+                                    <property name="draw_indicator">True</property>
+                                    <property name="group">advanced</property>
+                                  </object>
+                                  <packing>
+                                    <property name="x">10</property>
+                                    <property name="y">55</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="enterprise-xd">
+                                    <property name="label" translatable="yes">Citrix XenServer for XenDesktop</property>
+                                    <property name="width_request">300</property>
+                                    <property name="height_request">20</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="active">True</property>
+                                    <property name="draw_indicator">True</property>
+                                    <property name="group">advanced</property>
+                                  </object>
+                                  <packing>
+                                    <property name="x">10</property>
+                                    <property name="y">80</property>
+                                  </packing>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child type="label">
+                      <object class="GtkLabel" id="label107">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">&lt;b&gt;License Edition&lt;/b&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">15</property>
+                    <property name="y">60</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkFrame" id="frame24">
+                    <property name="width_request">400</property>
+                    <property name="height_request">100</property>
+                    <property name="visible">True</property>
+                    <property name="label_xalign">0</property>
+                    <property name="shadow_type">none</property>
+                    <child>
+                      <object class="GtkAlignment" id="alignment55">
+                        <property name="visible">True</property>
+                        <property name="left_padding">12</property>
+                        <child>
+                          <object class="GtkEventBox" id="eventbox104">
+                            <property name="visible">True</property>
+                            <child>
+                              <object class="GtkFixed" id="fixed150">
+                                <property name="visible">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="label109">
+                                    <property name="width_request">350</property>
+                                    <property name="height_request">20</property>
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Enter the name or IP address of the license server:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="x">5</property>
+                                    <property name="y">5</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label110">
+                                    <property name="width_request">100</property>
+                                    <property name="height_request">20</property>
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Name:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="x">5</property>
+                                    <property name="y">30</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label111">
+                                    <property name="width_request">100</property>
+                                    <property name="height_request">20</property>
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Port number:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="x">5</property>
+                                    <property name="y">55</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="licensehost">
+                                    <property name="width_request">200</property>
+                                    <property name="height_request">20</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">&#x25CF;</property>
+                                  </object>
+                                  <packing>
+                                    <property name="x">120</property>
+                                    <property name="y">30</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="licenseport">
+                                    <property name="width_request">200</property>
+                                    <property name="height_request">20</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">&#x25CF;</property>
+                                  </object>
+                                  <packing>
+                                    <property name="x">120</property>
+                                    <property name="y">55</property>
+                                  </packing>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child type="label">
+                      <object class="GtkLabel" id="label108">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">&lt;b&gt;License Server&lt;/b&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">15</property>
+                    <property name="y">190</property>
+                  </packing>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="dialog-action_area100">
+            <property name="visible">True</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="acceptlicensehost">
+                <property name="label">gtk-ok</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_acceptlicensehost_clicked"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="cancellicensehost">
+                <property name="label">gtk-cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_cancellicensehost_clicked"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="0">acceptlicensehost</action-widget>
+      <action-widget response="0">cancellicensehost</action-widget>
     </action-widgets>
   </object>
 </interface>
