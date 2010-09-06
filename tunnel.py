@@ -87,7 +87,7 @@ class Tunnel:
     def read_from_server(self):
         try:
             while self.halt == False:
-                 ready_to_read, ready_to_write, in_error = select.select([self.server_fd], [], [], 0)
+                 ready_to_read, ready_to_write, in_error = select.select([self.server_fd], [], [])
                  if self.server_fd in ready_to_read:
                      data = self.server_fd.recv(1024)
                      if "XenServer Virtual Terminal" in data:

@@ -930,7 +930,6 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             for i in range(5):
                 if not self.halt_performance:
                     time.sleep(1)
-
     def fill_vm_log(self, uuid, tree=None, list=None, thread=False):
         self.filter_uuid = uuid
         self.filter_ref = self.wine.selected_ref
@@ -979,7 +978,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         vboxchildlabel2.set_selectable(True)
         vboxchildlabel3 = gtk.Label()
         vboxchildlabel3.set_selectable(True)
-        vboxchildlabel3.set_size_request(600,0)
+        vboxchildlabel3.set_size_request(600,-1)
         vboxchildlabel3.set_line_wrap(True)
         vboxchildlabel4 = gtk.Label()
         vboxchildlabel4.set_selectable(True)
@@ -1658,108 +1657,108 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
     def update_tab_vm_general(self, ref, builder):
         self.builder = builder
         labels = {}
-
-        metric = self.all_vms[ref]['metrics']
-        metric_guest = self.all_vms[ref]['guest_metrics']
-        labels["lblvmname"] = self.all_vms[ref]['name_label']
-        labels["lblvmdescription"] = self.all_vms[ref]['name_description']
-        labels["lblvmuuid"] = self.all_vms[ref]['uuid']
-        labels["lblvmmemory"] = self.convert_bytes(self.all_vms[ref]['memory_dynamic_max'])
-        if self.all_vms[ref]['tags']:
-            labels["lblvmtags"] = ", ".join(self.all_vms[ref]['tags'])
-        else:
-            labels["lblvmtags"] = "" 
-        labels["lblvmcpu"] = self.all_vms[ref]['VCPUs_at_startup']
-        other_config = self.all_vms[ref]['other_config']
-        if "auto_poweron" in other_config and other_config["auto_poweron"] == "true":
-            labels["lblvmautoboot"] = "Yes"
-        else:
-            labels["lblvmautoboot"] = "No"
-
-        if not self.all_vms[ref]['HVM_boot_policy']:
-            labels['lblvmboot'] = "Boot order:"
-            labels["lblvmparameters"] = self.all_vms[ref]['PV_args']
-        else:
-            labels['lblvmboot'] = "OS boot parameters:"
-            labels['lblvmparameters'] = ""
-            for param in list(self.all_vms[ref]['HVM_boot_params']['order']):
-                    if param == 'c':
-                        labels['lblvmparameters'] += "Hard Disk\n"
-                    elif param == 'd':
-                        labels['lblvmparameters'] += "DVD-Drive\n"
-                    elif param == 'n':
-                        labels['lblvmparameters'] += "Network\n"
-
-        priority = self.all_vms[ref]["VCPUs_params"]
-        if "weight" in priority:
-            weight = int(priority['weight'])
-            if weight == 1:
-                labels["lblvmpriority"] = "Lowest"
-            elif weight <= 4:
-                labels["lblvmpriority"] = "Very Low"
-            elif weight <= 32:
-                labels["lblvmpriority"] = "Low"
-            elif weight <= 129:
-                labels["lblvmpriority"] = "Below Normal"
-            elif weight <= 512:
-                labels["lblvmpriority"] = "Normal"
-            elif weight <= 2048:
-                labels["lblvmpriority"] = "Above normal"
-            elif weight <= 4096:
-                labels["lblvmpriority"] = "High"
-            elif weight <= 16384:
-                labels["lblvmpriority"] = "Very High"
+        if ref in self.all_vms:
+            metric = self.all_vms[ref]['metrics']
+            metric_guest = self.all_vms[ref]['guest_metrics']
+            labels["lblvmname"] = self.all_vms[ref]['name_label']
+            labels["lblvmdescription"] = self.all_vms[ref]['name_description']
+            labels["lblvmuuid"] = self.all_vms[ref]['uuid']
+            labels["lblvmmemory"] = self.convert_bytes(self.all_vms[ref]['memory_dynamic_max'])
+            if self.all_vms[ref]['tags']:
+                labels["lblvmtags"] = ", ".join(self.all_vms[ref]['tags'])
             else:
-                labels["lblvmpriority"] = "Highest"
-        else:
-            labels["lblvmpriority"] = "Normal"
-       
-        #FIXME 
-        #labels["lblvmstartup"] =  str(self.connection.VM_metrics.get_start_time(self.session_uuid,metric)['Value'])
-        metric = self.all_vms[ref]['metrics']
-        if metric not in self.all_vm_metrics:
-           res = self.connection.VM_metrics.get_record(self.session_uuid, ref)
-           if "Value" in res:
-               self.all_vm_metrics[ref] = res["Value"]
-        
-        if metric in self.all_vm_metrics:
-            if self.all_vm_metrics[metric]['start_time'] != "19700101T00:00:00Z":
-                startup = self.humanize_time(self.get_seconds_difference(self.all_vm_metrics[metric]['start_time']))
-                labels["lblvmstartup"] = startup
+                labels["lblvmtags"] = "" 
+            labels["lblvmcpu"] = self.all_vms[ref]['VCPUs_at_startup']
+            other_config = self.all_vms[ref]['other_config']
+            if "auto_poweron" in other_config and other_config["auto_poweron"] == "true":
+                labels["lblvmautoboot"] = "Yes"
             else:
-                labels["lblvmstartup"] = "never started up"
-        else:
-            labels["lblvmstartup"] =  "" 
-        labels['lblvmdistro'] = ""
-        if metric_guest != "OpaqueRef:NULL" and metric_guest in self.all_vm_guest_metrics:
-            guest_metrics = self.all_vm_guest_metrics[metric_guest]
-            if "PV_drivers_up_to_date" in guest_metrics and guest_metrics['PV_drivers_up_to_date']:
-                state = "Optimized"
+                labels["lblvmautoboot"] = "No"
+
+            if not self.all_vms[ref]['HVM_boot_policy']:
+                labels['lblvmboot'] = "Boot order:"
+                labels["lblvmparameters"] = self.all_vms[ref]['PV_args']
             else:
-                state = "Not optimized"
-            if "PV_drivers_up_to_date" in guest_metrics and "major" in guest_metrics["PV_drivers_version"]:
-                if "build" in guest_metrics['PV_drivers_version']:
-                    state = state + " (version " + guest_metrics['PV_drivers_version']['major'] + "."\
-                        + guest_metrics['PV_drivers_version']['minor'] + " build "\
-                        + guest_metrics['PV_drivers_version']['build'] + ")"
+                labels['lblvmboot'] = "OS boot parameters:"
+                labels['lblvmparameters'] = ""
+                for param in list(self.all_vms[ref]['HVM_boot_params']['order']):
+                        if param == 'c':
+                            labels['lblvmparameters'] += "Hard Disk\n"
+                        elif param == 'd':
+                            labels['lblvmparameters'] += "DVD-Drive\n"
+                        elif param == 'n':
+                            labels['lblvmparameters'] += "Network\n"
+
+            priority = self.all_vms[ref]["VCPUs_params"]
+            if "weight" in priority:
+                weight = int(priority['weight'])
+                if weight == 1:
+                    labels["lblvmpriority"] = "Lowest"
+                elif weight <= 4:
+                    labels["lblvmpriority"] = "Very Low"
+                elif weight <= 32:
+                    labels["lblvmpriority"] = "Low"
+                elif weight <= 129:
+                    labels["lblvmpriority"] = "Below Normal"
+                elif weight <= 512:
+                    labels["lblvmpriority"] = "Normal"
+                elif weight <= 2048:
+                    labels["lblvmpriority"] = "Above normal"
+                elif weight <= 4096:
+                    labels["lblvmpriority"] = "High"
+                elif weight <= 16384:
+                    labels["lblvmpriority"] = "Very High"
                 else:
-                    state = state + " (version " + guest_metrics['PV_drivers_version']['major'] + "."\
-                        + guest_metrics['PV_drivers_version']['minor'] + " build )"
+                    labels["lblvmpriority"] = "Highest"
             else:
-                state = "<b>Tools not installed</b>"    
-            labels["lblvmvirtstate"] = state
-            if "name" in guest_metrics["os_version"]:
-                labels["lblvmdistro"] = guest_metrics["os_version"]["name"]
-        else:
-            state = "<span foreground='red'><b>Tools not installed</b></span>"
-        labels["lblvmvirtstate"] = state
-        if "folder" in other_config:
-            labels["lblvmfolder"] = other_config['folder']
-        else:
-            labels["lblvmfolder"] = ""
+                labels["lblvmpriority"] = "Normal"
+           
+            #FIXME 
+            #labels["lblvmstartup"] =  str(self.connection.VM_metrics.get_start_time(self.session_uuid,metric)['Value'])
+            metric = self.all_vms[ref]['metrics']
+            if metric not in self.all_vm_metrics:
+               res = self.connection.VM_metrics.get_record(self.session_uuid, ref)
+               if "Value" in res:
+                   self.all_vm_metrics[ref] = res["Value"]
             
-        for label in labels.keys():
-            builder.get_object(label).set_label(labels[label])
+            if metric in self.all_vm_metrics:
+                if self.all_vm_metrics[metric]['start_time'] != "19700101T00:00:00Z":
+                    startup = self.humanize_time(self.get_seconds_difference(self.all_vm_metrics[metric]['start_time']))
+                    labels["lblvmstartup"] = startup
+                else:
+                    labels["lblvmstartup"] = "never started up"
+            else:
+                labels["lblvmstartup"] =  "" 
+            labels['lblvmdistro'] = ""
+            if metric_guest != "OpaqueRef:NULL" and metric_guest in self.all_vm_guest_metrics:
+                guest_metrics = self.all_vm_guest_metrics[metric_guest]
+                if "PV_drivers_up_to_date" in guest_metrics and guest_metrics['PV_drivers_up_to_date']:
+                    state = "Optimized"
+                else:
+                    state = "Not optimized"
+                if "PV_drivers_up_to_date" in guest_metrics and "major" in guest_metrics["PV_drivers_version"]:
+                    if "build" in guest_metrics['PV_drivers_version']:
+                        state = state + " (version " + guest_metrics['PV_drivers_version']['major'] + "."\
+                            + guest_metrics['PV_drivers_version']['minor'] + " build "\
+                            + guest_metrics['PV_drivers_version']['build'] + ")"
+                    else:
+                        state = state + " (version " + guest_metrics['PV_drivers_version']['major'] + "."\
+                            + guest_metrics['PV_drivers_version']['minor'] + " build )"
+                else:
+                    state = "<b>Tools not installed</b>"    
+                labels["lblvmvirtstate"] = state
+                if "name" in guest_metrics["os_version"]:
+                    labels["lblvmdistro"] = guest_metrics["os_version"]["name"]
+            else:
+                state = "<span foreground='red'><b>Tools not installed</b></span>"
+            labels["lblvmvirtstate"] = state
+            if "folder" in other_config:
+                labels["lblvmfolder"] = other_config['folder']
+            else:
+                labels["lblvmfolder"] = ""
+                
+            for label in labels.keys():
+                builder.get_object(label).set_label(labels[label])
     def export_vm(self, ref, destination, ref2=None):
         if ref2:
             task_uuid = self.connection.task.create(self.session_uuid, "Exporting snapshot", "Exporting snapshot " + destination)
@@ -1854,8 +1853,10 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                              self.wine.builder.get_object("listvmsnapshots"))
                                         gtk.gdk.threads_leave()
 
+                                    gtk.gdk.threads_enter()
                                     self.wine.modelfilter.clear_cache()
                                     self.wine.modelfilter.refilter()
+                                    gtk.gdk.threads_leave()
                                     for track in self.track_tasks:
                                         if self.track_tasks[track] == "Import.VM":
                                             self.track_tasks[track] = event["ref"]
@@ -1966,8 +1967,10 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                                 if "Value" in vm:
                                                     self.all_vms[self.track_tasks[event["ref"]]] = vm['Value']
                                                     #self.add_vm_to_tree(self.track_tasks[event["ref"]])
+                                                    gtk.gdk.threads_enter()
                                                     self.wine.modelfilter.clear_cache()
                                                     self.wine.modelfilter.refilter()
+                                                    gtk.gdk.threads_leave()
                                                     self.wine.push_alert("%s %s %s" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"], (" %.2f%%" % (float(event["snapshot"]["progress"])*100))))
                                                 else:
                                                     self.wine.push_alert("%s: %s %s" % (event["snapshot"]["name_label"], event["snapshot"]["name_description"],  (" %.2f%%" % (float(event["snapshot"]["progress"])*100))))
