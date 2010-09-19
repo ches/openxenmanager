@@ -491,18 +491,12 @@ class oxcSERVERmenuitem:
         if delete_vdi:
             if ref in self.all_vms:
                 for vbd in self.all_vms[ref]['VBDs']:
-                    res = self.connection.VDI.destroy(self.session_uuid, self.all_vbd[vbd]['VDI'])
-                    if "Value" in res:
-                        self.track_tasks[res['Value']] = ref
-                    else:
-                        print res
-                    """
-                    res =  self.connection.VBD.destroy(self.session_uuid, vbd)
-                    if "Value" in res:
-                        self.track_tasks[res['Value']] = ref
-                    else:
-                        print res
-                    """
+                    if vbd in self.all_vbd and self.all_vbd[vbd]['type'] != "CD":
+                        res =  self.connection.VBD.destroy(self.session_uuid, vbd)
+                        if "Value" in res:
+                            self.track_tasks[res['Value']] = ref
+                        else:
+                            print res
         if delete_snap:
             all_snapshots = self.all_vms[ref]['snapshots']
             for snap in all_snapshots:
