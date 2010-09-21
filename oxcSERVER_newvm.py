@@ -94,7 +94,11 @@ class oxcSERVERnewvm:
         return default_sr 
 
     def create_newvm(self, data):
-        vm_uuid = self.connection.VM.clone(self.session_uuid, data['ref'], data['name'])['Value']
+        res = self.connection.VM.clone(self.session_uuid, data['ref'], data['name'])
+        if not "Value" in res:
+            self.wine.show_error_dlg(str(res["ErrorDescription"]))
+            return
+        vm_uuid = res['Value']
         if data["startvm"]:
             self.autostart[vm_uuid] = data['host']
         self.connection.VM.set_name_description(self.session_uuid, vm_uuid, data['description'])
