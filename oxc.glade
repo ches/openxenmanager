@@ -7706,7 +7706,7 @@ is useful and you use it, your donation will help their development.</property>
                                             </child>
                                             <child>
                                               <object class="GtkLinkButton" id="linkbutton2">
-                                                <property name="label" translatable="yes">http://openxenmanager.sourceforge.net</property>
+                                                <property name="label" translatable="yes">http://www.xensemaking.com/openxenmanager/</property>
                                                 <property name="height_request">20</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
@@ -7714,11 +7714,40 @@ is useful and you use it, your donation will help their development.</property>
                                                 <property name="relief">none</property>
                                                 <property name="focus_on_click">False</property>
                                                 <property name="xalign">0</property>
-                                                <property name="uri">http://openxenmanager.sourceforge.net</property>
+                                                <property name="uri">http://www.xensemaking.com/openxenmanager/</property>
                                               </object>
                                               <packing>
-                                                <property name="x">305</property>
+                                                <property name="x">350</property>
                                                 <property name="y">275</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkLabel" id="label112">
+                                                <property name="width_request">335</property>
+                                                <property name="height_request">20</property>
+                                                <property name="visible">True</property>
+                                                <property name="xalign">0</property>
+                                                <property name="label" translatable="yes">You can try xenwebmanager downloading from here:</property>
+                                              </object>
+                                              <packing>
+                                                <property name="x">15</property>
+                                                <property name="y">315</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkLinkButton" id="linkbutton4">
+                                                <property name="label" translatable="yes">http://www.xensemaking.com/xenwebmanager/</property>
+                                                <property name="height_request">20</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">True</property>
+                                                <property name="has_tooltip">True</property>
+                                                <property name="relief">none</property>
+                                                <property name="uri">http://www.xensemaking.com/xenwebmanager/</property>
+                                              </object>
+                                              <packing>
+                                                <property name="x">350</property>
+                                                <property name="y">315</property>
                                               </packing>
                                             </child>
                                           </object>
