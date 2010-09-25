@@ -1759,7 +1759,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 
             for label in labels.keys():
                 builder.get_object(label).set_label(labels[label])
-    def export_vm(self, ref, destination, ref2=None):
+    def export_vm(self, ref, destination, ref2=None, as_vm = False):
         if ref2:
             task_uuid = self.connection.task.create(self.session_uuid, "Exporting snapshot", "Exporting snapshot " + destination)
         else:
@@ -1767,11 +1767,15 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         self.track_tasks[task_uuid['Value']] = ref2 if ref2 else ref
         url = "http://%s/export?ref=%s&session_id=%s&task_id=%s" % (self.wine.selected_host,  
                                ref, self.session_uuid, task_uuid['Value'])
-        Thread(target=self.download_export, args=(url,destination)).start()
+        Thread(target=self.download_export, args=(url,destination, ref, as_vm)).start()
        
-    def download_export(self, url, destination):
+    def download_export(self, url, destination, ref, as_vm):
         #print "Saving %s to %s" % (url, destination)
+        if as_vm:
+             self.connection.VM.set_is_a_template(self.session_uuid, ref, False)
         urllib.urlretrieve(url, destination)
+        if as_vm:
+             self.connection.VM.set_is_a_template(self.session_uuid, ref, True)
     
     
     def get_actions(self, ref):

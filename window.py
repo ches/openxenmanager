@@ -140,6 +140,8 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
     
     # Flag variable to export snapshot
     export_snap = False
+    export_snap_vm = False
+
     # For windows only
     hWnd = 0
 
@@ -639,7 +641,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 "btgraphoneweek", "btgraphoneyear", "btsendctraltdel", "btenterfullscreen", "btsendctrlaltdel2", 
                 "btexitfullscreen", "bteditcustomfields", "addcustomfield", "deletecustomfield", "cancelwcustomfields",
                 "acceptwcustomfields", "btexportmap", "rescanisos", "btnewstgsaoescan", "btsnapnewvm",
-                "btsnapcreatetpl", "btsnapexport", "btsnapdelete", "btsnaprevert", "acceptdialogrevert", "canceldialogrevert",
+                "btsnapcreatetpl", "btsnapexport", "btsnapexportvm", "btsnapdelete", "btsnaprevert", "acceptdialogrevert", "canceldialogrevert",
                 "acceptconfirmshutdown", "cancelconfirmshutdown", "acceptlicensehost", "cancellicensehost"
                 ]:
             self.builder.get_object(button).modify_bg(gtk.STATE_NORMAL, blue)
@@ -1437,6 +1439,10 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 print "Export snap.."
                 self.xc_servers[self.selected_host].export_vm(self.selected_snap_ref,  filechooser.get_filename(), self.selected_ref) 
                 self.export_snap = False
+            elif  self.export_snap_vm:
+                print "Export snap as VM.."
+                self.xc_servers[self.selected_host].export_vm(self.selected_snap_ref,  filechooser.get_filename(), self.selected_ref, as_vm = True) 
+                self.export_snap_vm = False
             else:
                 self.xc_servers[self.selected_host].export_vm(self.selected_ref,  filechooser.get_filename()) 
             self.filesave.hide()

@@ -76,6 +76,16 @@ class oxcWindowVMSnapshot:
         # Show the choose dialog
         self.filesave.show()
 
+    def on_m_snap_export_vm_activate(self, widget, data=None):
+        """
+        Function called when you press "export snapshot"
+        """
+        # Set default name
+        self.export_snap_vm = True
+        self.filesave.set_current_name(self.xc_servers[self.selected_host].all_vms[self.selected_snap_ref]['name_label'] + ".xva")
+        # Show the choose dialog
+        self.filesave.show()
+
     def on_btacceptsnapshotdelete_clicked(self, widget, data=None):
         """
         Function called when you accept the "delete snapshot" confirmation dialog

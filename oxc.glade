@@ -7134,7 +7134,7 @@
                                                     <signal name="clicked" handler="on_bttakesnapshot_clicked"/>
                                                   </object>
                                                   <packing>
-                                                    <property name="x">635</property>
+                                                    <property name="x">660</property>
                                                     <property name="y">20</property>
                                                   </packing>
                                                 </child>
@@ -7183,7 +7183,7 @@
                                                 <child>
                                                   <object class="GtkButton" id="btsnapnewvm">
                                                     <property name="label" translatable="yes">New VM ...</property>
-                                                    <property name="width_request">120</property>
+                                                    <property name="width_request">80</property>
                                                     <property name="height_request">20</property>
                                                     <property name="visible">True</property>
                                                     <property name="sensitive">False</property>
@@ -7199,7 +7199,7 @@
                                                 <child>
                                                   <object class="GtkButton" id="btsnapcreatetpl">
                                                     <property name="label" translatable="yes">Create Template ...</property>
-                                                    <property name="width_request">140</property>
+                                                    <property name="width_request">130</property>
                                                     <property name="height_request">20</property>
                                                     <property name="visible">True</property>
                                                     <property name="sensitive">False</property>
@@ -7208,7 +7208,7 @@
                                                     <signal name="clicked" handler="on_m_snap_createtpl_activate"/>
                                                   </object>
                                                   <packing>
-                                                    <property name="x">150</property>
+                                                    <property name="x">105</property>
                                                     <property name="y">20</property>
                                                   </packing>
                                                 </child>
@@ -7224,7 +7224,7 @@
                                                     <signal name="clicked" handler="on_m_snap_export_activate"/>
                                                   </object>
                                                   <packing>
-                                                    <property name="x">300</property>
+                                                    <property name="x">240</property>
                                                     <property name="y">20</property>
                                                   </packing>
                                                 </child>
@@ -7240,7 +7240,7 @@
                                                     <signal name="clicked" handler="on_m_snap_delete_activate"/>
                                                   </object>
                                                   <packing>
-                                                    <property name="x">550</property>
+                                                    <property name="x">585</property>
                                                     <property name="y">20</property>
                                                   </packing>
                                                 </child>
@@ -7256,7 +7256,22 @@
                                                     <signal name="clicked" handler="on_btsnaprevert_clicked"/>
                                                   </object>
                                                   <packing>
-                                                    <property name="x">460</property>
+                                                    <property name="x">500</property>
+                                                    <property name="y">20</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkButton" id="btsnapexportvm">
+                                                    <property name="label" translatable="yes">Export As VM...</property>
+                                                    <property name="width_request">100</property>
+                                                    <property name="height_request">20</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <signal name="clicked" handler="on_m_snap_export_vm_activate"/>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="x">395</property>
                                                     <property name="y">20</property>
                                                   </packing>
                                                 </child>
@@ -9258,7 +9273,6 @@ is useful and you use it, your donation will help their development.</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="invisible_char">&#x25CF;</property>
-                <property name="text" translatable="yes">hot </property>
               </object>
               <packing>
                 <property name="x">5</property>
@@ -19538,58 +19552,6 @@ you can choose two options:
     <property name="visible">True</property>
     <property name="stock">gtk-harddisk</property>
   </object>
-  <object class="GtkMenu" id="menu_snapshot">
-    <property name="visible">True</property>
-    <child>
-      <object class="GtkImageMenuItem" id="m_snap_newvm">
-        <property name="label" translatable="yes">New VM From Snapshot...</property>
-        <property name="visible">True</property>
-        <property name="image">image59</property>
-        <property name="use_stock">False</property>
-        <signal name="activate" handler="on_m_snap_newvm_activate"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkImageMenuItem" id="m_snap_createtpl">
-        <property name="label" translatable="yes">Create Template From Snapshot...</property>
-        <property name="visible">True</property>
-        <property name="image">image60</property>
-        <property name="use_stock">False</property>
-        <signal name="activate" handler="on_m_snap_createtpl_activate"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkImageMenuItem" id="m_snap_export">
-        <property name="label" translatable="yes">Export Snapshot As Template...</property>
-        <property name="visible">True</property>
-        <property name="image">image65</property>
-        <property name="use_stock">False</property>
-        <signal name="activate" handler="on_m_snap_export_activate"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkImageMenuItem" id="m_snap_delete">
-        <property name="label" translatable="yes">Delete Snapshot</property>
-        <property name="visible">True</property>
-        <property name="use_stock">False</property>
-        <signal name="activate" handler="on_m_snap_delete_activate"/>
-      </object>
-    </child>
-  </object>
-  <object class="GtkImage" id="image59">
-    <property name="visible">True</property>
-    <property name="xalign">0</property>
-    <property name="yalign">0</property>
-    <property name="stock">gtk-new</property>
-  </object>
-  <object class="GtkImage" id="image60">
-    <property name="visible">True</property>
-    <property name="stock">gtk-convert</property>
-  </object>
-  <object class="GtkImage" id="image65">
-    <property name="visible">True</property>
-    <property name="stock">gtk-delete</property>
-  </object>
   <object class="GtkImage" id="image66">
     <property name="visible">True</property>
     <property name="stock">gtk-home</property>
@@ -24199,5 +24161,69 @@ Before do a revert is recommended take a snapshot with current state.</property>
       <action-widget response="0">cancellicensehost</action-widget>
     </action-widgets>
   </object>
+  <object class="GtkMenu" id="menu_snapshot">
+    <property name="visible">True</property>
+    <child>
+      <object class="GtkImageMenuItem" id="m_snap_newvm">
+        <property name="label" translatable="yes">New VM From Snapshot...</property>
+        <property name="visible">True</property>
+        <property name="image">image59</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="on_m_snap_newvm_activate"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="m_snap_createtpl">
+        <property name="label" translatable="yes">Create Template From Snapshot...</property>
+        <property name="visible">True</property>
+        <property name="image">image60</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="on_m_snap_createtpl_activate"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="m_snap_export">
+        <property name="label" translatable="yes">Export Snapshot As Template...</property>
+        <property name="visible">True</property>
+        <property name="image">image65</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="on_m_snap_export_activate"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="m_snap_export_vm">
+        <property name="label" translatable="yes">Export Snapshot as VM...</property>
+        <property name="visible">True</property>
+        <property name="image">image75</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="on_m_snap_export_vm_activate"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="m_snap_delete">
+        <property name="label" translatable="yes">Delete Snapshot</property>
+        <property name="visible">True</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="on_m_snap_delete_activate"/>
+      </object>
+    </child>
+  </object>
+  <object class="GtkImage" id="image59">
+    <property name="visible">True</property>
+    <property name="xalign">0</property>
+    <property name="yalign">0</property>
+    <property name="stock">gtk-new</property>
+  </object>
+  <object class="GtkImage" id="image60">
+    <property name="visible">True</property>
+    <property name="stock">gtk-convert</property>
+  </object>
+  <object class="GtkImage" id="image65">
+    <property name="visible">True</property>
+    <property name="stock">gtk-save-as</property>
+  </object>
+  <object class="GtkImage" id="image75">
+    <property name="visible">True</property>
+    <property name="stock">gtk-save-as</property>
+  </object>
 </interface>
-
