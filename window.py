@@ -1195,6 +1195,10 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                             Thread(target=self.tunnel.listen, args=(port,)).start()
                             time.sleep(1)
                             # And open the connection
+                            try:
+                                self.vnc.set_depth(1)
+                            except:
+                                pass
                             self.vnc.open_host("localhost", str(port))
                         else:
                             print "No console available"
