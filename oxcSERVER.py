@@ -1223,16 +1223,16 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                     start_time = self.all_vm_metrics[self.all_vms[vm]['metrics']]['start_time']
                     uptime = self.humanize_time(self.get_seconds_difference(start_time))
                     if parent != "OpaqueRef:NULL":
-                        if with_tools:
-                          if int(load_img) > 10:
-                            load_img = "10"
-                          elif int(load_img) < 0:
-                            load_img = "0"
-                          if int(memory_img) > 10:
-                            memory_img = "10"
-                          elif int(memory_img) < 0:
-                            memory_img = "0"
+                        if int(load_img) > 10:
+                          load_img = "10"
+                        elif int(load_img) < 0:
+                          load_img = "0"
+                        if int(memory_img) > 10:
+                          memory_img = "10"
+                        elif int(memory_img) < 0:
+                          memory_img = "0"
 
+                        if with_tools:
                           list.append(hosts[parent], ([gtk.gdk.pixbuf_new_from_file("images/tree_running_16.png"), 
                                   self.all_vms[vm]['name_label'] + "\n<i>" + self.all_vms[vm]['name_description'] + "</i>", 
                                   gtk.gdk.pixbuf_new_from_file("images/usagebar_%s.png" % load_img), 
