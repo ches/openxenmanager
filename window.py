@@ -642,7 +642,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 "btexitfullscreen", "bteditcustomfields", "addcustomfield", "deletecustomfield", "cancelwcustomfields",
                 "acceptwcustomfields", "btexportmap", "rescanisos", "btnewstgsaoescan", "btsnapnewvm",
                 "btsnapcreatetpl", "btsnapexport", "btsnapexportvm", "btsnapdelete", "btsnaprevert", "acceptdialogrevert", "canceldialogrevert",
-                "acceptconfirmshutdown", "cancelconfirmshutdown", "acceptlicensehost", "cancellicensehost"
+                "acceptconfirmshutdown", "cancelconfirmshutdown", "acceptlicensehost", "cancellicensehost", "btcopytext"
                 ]:
             self.builder.get_object(button).modify_bg(gtk.STATE_NORMAL, blue)
             self.builder.get_object(button).modify_bg(gtk.STATE_ACTIVE, blue)
@@ -1199,6 +1199,8 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                                 self.vnc.set_depth(1)
                             except:
                                 pass
+
+                            self.vnc.connect("vnc-server-cut-text", self.vnc_button_release) 
                             self.vnc.open_host("localhost", str(port))
                         else:
                             print "No console available"

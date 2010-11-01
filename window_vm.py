@@ -24,6 +24,7 @@ from window_vm_snapshot import *
 from window_vm_performance import *
 import gtk
 import time
+selection = None
 class oxcWindowVM(oxcWindowVMNetwork,oxcWindowVMStorage,oxcWindowVMSnapshot,oxcWindowVMPerformance):
     """
     Class to manage window actions
@@ -33,6 +34,32 @@ class oxcWindowVM(oxcWindowVMNetwork,oxcWindowVMStorage,oxcWindowVMSnapshot,oxcW
         Function called when you press "send ctrl alt del" on vm console
         """
         self.on_menuitem_tools_cad_activate(widget, data)
+    def vnc_button_release(self, clipboard, data, user=None):
+        global selection
+        selection = data
+        self.vnc.client_cut_text(data)
+        return 
+
+    def copy_cb(self, clipboard, data, info, user=None):
+        global selection
+        data.set_text(selection, -1)
+
+    def clear_cb(self, clipboard, data, user=None):
+        return
+
+    def on_btcopytext_clicked(self, widget, data=None):
+        """
+        Function called when you press "Copy selected text" on console tab
+        """
+        clipboard = self.vnc.get_clipboard(gtk.gdk.SELECTION_CLIPBOARD)
+        clipboard.connect("owner-change", self.vnc_button_release)
+        text = clipboard.wait_for_text()
+        targets = [('TEXT', 0, 1), ('STRING', 0, 2), ('COMPOUND_TEXT', 0, 3), ('UTF8_STRING', 0, 4)]
+        clipboard.set_with_data(targets, self.copy_cb, self.clear_cb, None);
+        def text_get_func(clipboard, text, data):
+            if text:
+                self.vnc.client_cut_text(text)
+        clipboard.request_text(text_get_func)
 
     def on_btenterfullscreen_clicked(self, widget, data=None):
         """
