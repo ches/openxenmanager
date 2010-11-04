@@ -1212,14 +1212,18 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                         else:
                             ref = self.selected_ref
                         # Run ./vncviewer with host, vm renf and session ref
-                        param = self.xc_servers[host].get_connect_parameters(ref, self.selected_ip)
-                        self.tunnel = Tunnel(ref, self.xc_servers[self.selected_host].session_uuid, self.selected_ip)
-                        port = self.tunnel.get_free_port()
-                        Thread(target=self.tunnel.listen, args=(port,)).start()
-                        time.sleep(1)
-                        os.spawnl(os.P_NOWAIT,"./vncviewer", "vncviewer", "localhost::%s" % port)
-                        console_area = self.builder.get_object("console_area")
-                        console_alloc = console_area.get_allocation()
+                        if self.xc_servers[self.selected_host].all_vms[ref]["consoles"]:
+                            console_ref = self.xc_servers[self.selected_host].all_vms[ref]["consoles"][0]
+                            location = self.xc_servers[self.selected_host].all_console[console_ref]["location"]
+                            self.tunnel = Tunnel(self.xc_servers[self.selected_host].session_uuid, location)
+                            port = self.tunnel.get_free_port()
+                            Thread(target=self.tunnel.listen, args=(port,)).start()
+                            time.sleep(1)
+                            os.spawnl(os.P_NOWAIT,"./vncviewer", "vncviewer", "localhost::%s" % port)
+                            console_area = self.builder.get_object("console_area")
+                            console_alloc = console_area.get_allocation()
+                        else:
+                            print "No console available"
 
                     else:
                         if self.selected_type == "host":
