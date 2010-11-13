@@ -1216,7 +1216,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                   color[rcolor % 2] 
                               ])) and False)
                         else:
-                            gobject.idle_Add(lambda: list.append(hosts[parent],  
+                            gobject.idle_add(lambda: list.append(hosts[parent],  
                                 ([gtk.gdk.pixbuf_new_from_file("images/tree_running_16.png"), 
                                   self.all_vms[vm]['name_label'] + "\n<i>" + self.all_vms[vm]['name_description'] + "</i>", 
                                   gtk.gdk.pixbuf_new_from_file("images/usagebar_%s.png" % load_img), 
@@ -1865,11 +1865,11 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                         else:
                                             if event['snapshot']['resident_on'] !=  self.all_vms[self.vm_filter_uuid()]['resident_on']:
                                                 self.found_iter = None 
-                                                self.treestore.foreach(self.search_ref, event["ref"])
+                                                gobject.idle_add(lambda: self.treestore.foreach(self.search_ref, event["ref"]) and False)
                                                 if self.found_iter:
                                                     gobject.idle_add(lambda: self.treestore.remove(self.found_iter) and False)
                                                     self.all_vms[self.vm_filter_uuid()] =  event['snapshot']
-                                                    self.add_vm_to_tree(event["ref"])
+                                                    gobject.idle_add(lambda: self.add_vm_to_tree(event["ref"] and False))
              
                                             if event['snapshot']['affinity'] !=  self.all_vms[self.vm_filter_uuid()]['affinity']:
                                                 print "migrate or start on or resume on2"
