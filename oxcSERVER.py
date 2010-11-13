@@ -1058,7 +1058,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             color[1] = gtk.gdk.color_parse("#BAE5D3") 
         while not self.halt_search:
             gobject.idle_add(lambda: list.clear() and False)
-            rcolor = 0 
+            position = 0
             hosts = {}
             #FIXME: what happen when a pool exists?
             for host in self.all_hosts.keys():
@@ -1073,9 +1073,9 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                     memory_img = int((((memory_total-memory_free)*100)/memory_total)/10)
                 start_time = self.all_hosts[host]['other_config']['boot_time'][:-1]
                 uptime = self.humanize_time(time.time() - int(start_time))
-                #hosts[host] = list.append(None, ([gtk.gdk.pixbuf_new_from_file("images/tree_connected_16.png"), "<b>" + self.all_hosts[host]['name_label'] + "</b>\n<i>" +  self.all_hosts[host]['name_description']  + "</i>", gtk.gdk.pixbuf_new_from_file("images/usagebar_5.png"), "",gtk.gdk.pixbuf_new_from_file("images/usagebar_%s.png" % str(memory_img)),memory,"-","",self.all_hosts[host]['address'],uptime, color[rcolor % 2]]))
-                gobject.idle_add(lambda: hosts.__setitem__(host,list.append(None, ([gtk.gdk.pixbuf_new_from_file("images/tree_connected_16.png"), "<b>" + self.all_hosts[host]['name_label'] + "</b>\n<i>" +  self.all_hosts[host]['name_description']  + "</i>", gtk.gdk.pixbuf_new_from_file("images/usagebar_5.png"), "",gtk.gdk.pixbuf_new_from_file("images/usagebar_%s.png" % str(memory_img)),memory,"-","",self.all_hosts[host]['address'],uptime, color[rcolor % 2]]))) and False)
-                rcolor = rcolor + 1
+                hosts[host] = position
+                gobject.idle_add(lambda: list.append(None, ([gtk.gdk.pixbuf_new_from_file("images/tree_connected_16.png"), "<b>" + self.all_hosts[host]['name_label'] + "</b>\n<i>" +  self.all_hosts[host]['name_description']  + "</i>", gtk.gdk.pixbuf_new_from_file("images/usagebar_5.png"), "",gtk.gdk.pixbuf_new_from_file("images/usagebar_%s.png" % str(memory_img)),memory,"-","",self.all_hosts[host]['address'],uptime, color[position % 2]])) and False)
+                position = position + 1
 
             for host in self.all_hosts.keys():
                 Thread(target=self.fill_vm_search, args=(host,list,hosts)).start()
@@ -1203,7 +1203,8 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                           memory_img = "0"
 
                         if with_tools:
-                            gobject.idle_add(lambda: list.append(hosts[parent], ([gtk.gdk.pixbuf_new_from_file("images/tree_running_16.png"), 
+                            gobject.idle_add(lambda: list.append(list.get_iter(hosts[parent]),
+                                ([gtk.gdk.pixbuf_new_from_file("images/tree_running_16.png"), 
                                   self.all_vms[vm]['name_label'] + "\n<i>" + self.all_vms[vm]['name_description'] + "</i>", 
                                   gtk.gdk.pixbuf_new_from_file("images/usagebar_%s.png" % load_img), 
                                   load + "% of " + str(cpu) + " cpus",
@@ -1216,7 +1217,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                   color[rcolor % 2] 
                               ])) and False)
                         else:
-                            gobject.idle_add(lambda: list.append(hosts[parent],  
+                            gobject.idle_add(lambda: list.append(list.get_iter(hosts[parent]),
                                 ([gtk.gdk.pixbuf_new_from_file("images/tree_running_16.png"), 
                                   self.all_vms[vm]['name_label'] + "\n<i>" + self.all_vms[vm]['name_description'] + "</i>", 
                                   gtk.gdk.pixbuf_new_from_file("images/usagebar_%s.png" % load_img), 
@@ -1250,7 +1251,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                         """
                         #print  self.all_vms[vm]
                 else:
-                    gobject.idle_add(lambda: list.set(hosts[parent], 2,  gtk.gdk.pixbuf_new_from_file("images/usagebar_%s.png" % load_img),
+                    gobject.idle_add(lambda: list.set(list.get_iter(hosts[parent]), 2,  gtk.gdk.pixbuf_new_from_file("images/usagebar_%s.png" % load_img),
                                             3,  load + "% of " + str(cpu) + " cpus",
                                             7, str(vif_write_avg) + "/" + str(vif_write_max) + " | " +  str(vif_read_avg) + "/" + str(vif_read_max)) and False)
         self.wine.treesearch.expand_all()
