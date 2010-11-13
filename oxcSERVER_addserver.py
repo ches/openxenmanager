@@ -64,9 +64,7 @@ class oxcSERVERaddserver:
             else:
                 self.wine.finish_progressconnect(False)
                 if "HOST_IS_SLAVE" in result["ErrorDescription"]:
-                    gtk.gdk.threads_enter()
-                    self.wine.show_error_dlg("HOST IS SLAVE, please connect to: %s" % (result["ErrorDescription"][1]))
-                    gtk.gdk.threads_leave()
+                    gobject.idle_add(lambda: self.wine.show_error_dlg("HOST IS SLAVE, please connect to: %s" % (result["ErrorDescription"][1])) and False)
                 else:
                     print result
                 #self.wine.show_error_dlg(str(result["ErrorDescription"]))

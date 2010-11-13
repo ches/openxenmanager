@@ -379,27 +379,19 @@ class oxcSERVERmenuitem:
              if len(task["error_info"]):
                  print task["error_info"]
                  error = True
-                 gtk.gdk.threads_enter()
-                 self.wine.builder.get_object("lblrepairerror").set_markup(\
-                         "<span foreground='red'><b>Host could not be contacted</b></span>")
-                 gtk.gdk.threads_leave()
+                 gobject.idle_add(lambda: self.wine.builder.get_object("lblrepairerror").set_markup(\
+                         "<span foreground='red'><b>Host could not be contacted</b></span>") and False)
              for i in range(0, list.__len__()):
-                 gtk.gdk.threads_enter()
                  if list.get_value(list.get_iter((i,)), 0) == pbd_ref:
                      if error:
-                         list.set_value(list.get_iter((i,)), 3, "<span foreground='red'><b>Unplugged</b></span>")
+                         gobject.idle_add(lambda: list.set_value(list.get_iter((i,)), 3, "<span foreground='red'><b>Unplugged</b></span>") and False)
                      else:
-                         list.set_value(list.get_iter((i,)), 3, "<span foreground='green'><b>Connected</b></span>")
-                 gtk.gdk.threads_leave()
+                         gobject.idle_add(lambda: list.set_value(list.get_iter((i,)), 3, "<span foreground='green'><b>Connected</b></span>") and False)
         if not error:
-             gtk.gdk.threads_enter()
-             self.wine.builder.get_object("lblrepairerror").set_markup(\
-                     "<span foreground='green'><b>All repaired.</b></span>")
-             gtk.gdk.threads_leave()
-        gtk.gdk.threads_enter()
-        self.wine.builder.get_object("acceptrepairstorage").set_sensitive(True) 
-        self.wine.builder.get_object("cancelrepairstorage").set_label("Close")
-        gtk.gdk.threads_leave()
+             gobjec.idle_add(lambda: self.wine.builder.get_object("lblrepairerror").set_markup(\
+                     "<span foreground='green'><b>All repaired.</b></span>") and False)
+        gobject.idle_add(lambda: self.wine.builder.get_object("acceptrepairstorage").set_sensitive(True) and False)
+        gobject.idle_add(lambda: self.wine.builder.get_object("cancelrepairstorage").set_label("Close") and False)
     def remove_server_from_pool(self, ref):
         self.connection.pool.eject(self.session_uuid, ref)
 

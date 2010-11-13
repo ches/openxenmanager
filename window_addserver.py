@@ -85,13 +85,7 @@ class oxcWindowAddServer:
             self.xc_servers[self.selected_host].fill_alerts(self.listalerts)
             self.update_n_alerts()
         # Hide window progress
-        if sys.platform != "win32":
-        # On linux hide a window doesn't crash
-            gobject.idle_add(self.hide_wprogressconnect)
-            #self.builder.get_object("wprogressconnect").hide()
-        else:
-        # On windows is needed run gobject idle_add
-            gobject.idle_add(self.hide_wprogressconnect)
+        gobject.idle_add(lambda: self.hide_wprogressconnect() and False)
         
         # Setting again the modelfiter it will be refresh internal path/references
         self.treeview.set_model(self.modelfilter)
