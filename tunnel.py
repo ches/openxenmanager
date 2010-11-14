@@ -74,6 +74,7 @@ class Tunnel:
             else:
                  pass
 
+        self.client_fd.close()
     def get_free_port(self):
         sock = socket.socket()
         sock.bind(("127.0.0.1", 0))
@@ -103,14 +104,14 @@ class Tunnel:
                  print traceback.print_exc()
             else:
                  pass
+        self.server_fd.close()
 
     def close(self):
         try:
             self.halt = True
             self.client_fd.send("close\n")
+            self.client_fd.send("close\n")
             self.server_fd.send("close\n")
-            self.server_fd.close()
-            self.client_fd.close()
             del self
         except:
             pass
