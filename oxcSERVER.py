@@ -1074,7 +1074,8 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 start_time = self.all_hosts[host]['other_config']['boot_time'][:-1]
                 uptime = self.humanize_time(time.time() - int(start_time))
                 hosts[host] = position
-                gobject.idle_add(lambda: list.append(None, ([gtk.gdk.pixbuf_new_from_file("images/tree_connected_16.png"), "<b>" + self.all_hosts[host]['name_label'] + "</b>\n<i>" +  self.all_hosts[host]['name_description']  + "</i>", gtk.gdk.pixbuf_new_from_file("images/usagebar_5.png"), "",gtk.gdk.pixbuf_new_from_file("images/usagebar_%s.png" % str(memory_img)),memory,"-","",self.all_hosts[host]['address'],uptime, color[position % 2]])) and False)
+                gobject.idle_add(lambda item: list.append(None, item) and False, ([gtk.gdk.pixbuf_new_from_file("images/tree_connected_16.png"),  "<b>" + self.all_hosts[host]['name_label'] + "</b>\n<i>" +  self.all_hosts[host]['name_description']  + "</i>", gtk.gdk.pixbuf_new_from_file("images/usagebar_5.png"), "",gtk.gdk.pixbuf_new_from_file("images/usagebar_%s.png" % str(memory_img)),memory,"-","",self.all_hosts[host]['address'],uptime, color[position % 2]]))
+
                 position = position + 1
 
             for host in self.all_hosts.keys():
@@ -1203,7 +1204,8 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                           memory_img = "0"
 
                         if with_tools:
-                            gobject.idle_add(lambda: list.append(list.get_iter(hosts[parent]),
+                             gobject.idle_add(lambda parent_path, item: list.append(list.get_iter(parent_path), item) and False,
+                                hosts[parent],
                                 ([gtk.gdk.pixbuf_new_from_file("images/tree_running_16.png"), 
                                   self.all_vms[vm]['name_label'] + "\n<i>" + self.all_vms[vm]['name_description'] + "</i>", 
                                   gtk.gdk.pixbuf_new_from_file("images/usagebar_%s.png" % load_img), 
@@ -1215,9 +1217,10 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                   "\n".join(ips),
                                   uptime,
                                   color[rcolor % 2] 
-                              ])) and False)
+                              ]))
                         else:
-                            gobject.idle_add(lambda: list.append(list.get_iter(hosts[parent]),
+                            gobject.idle_add(lambda parent_path, item: list.append(list.get_iter(parent_path), item) and False,
+                                hosts[parent],
                                 ([gtk.gdk.pixbuf_new_from_file("images/tree_running_16.png"), 
                                   self.all_vms[vm]['name_label'] + "\n<i>" + self.all_vms[vm]['name_description'] + "</i>", 
                                   gtk.gdk.pixbuf_new_from_file("images/usagebar_%s.png" % load_img), 
@@ -1229,7 +1232,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                   "-",
                                   uptime,
                                   color[rcolor % 2] 
-                               ])) and False)
+                               ]))
                         rcolor = rcolor + 1
                     else:
                         pass
