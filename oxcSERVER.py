@@ -1257,7 +1257,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                     gobject.idle_add(lambda: list.set(list.get_iter(hosts[parent]), 2,  gtk.gdk.pixbuf_new_from_file("images/usagebar_%s.png" % load_img),
                                             3,  load + "% of " + str(cpu) + " cpus",
                                             7, str(vif_write_avg) + "/" + str(vif_write_max) + " | " +  str(vif_read_avg) + "/" + str(vif_read_max)) and False)
-        self.wine.treesearch.expand_all()
+            gobject.idle_add(lambda: self.wine.treesearch.expand_all() and False)
 
 
 
@@ -2017,6 +2017,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                                          self.wine.builder.get_object("treevmsnapshots"), \
                                                          self.wine.builder.get_object("listvmsnapshots")) and False)
                                     if event["snapshot"]["status"] == "success" and event["snapshot"]["name_label"] == "VIF.destroy": 
+                                            if self.wine.selected_tab == "VM_Network":
                                                     gobject.idle_add(lambda: self.fill_vm_network(self.wine.selected_ref, \
                                                          self.wine.builder.get_object("treevmnetwork"), \
                                                          self.wine.builder.get_object("listvmnetwork")) and False)
