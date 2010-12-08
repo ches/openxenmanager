@@ -711,7 +711,10 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         self.halt_performance = False
         for widget in ["scrolledwindow47", "scrolledwindow48", "scrolledwindow49", "scrolledwindow50"]:
             if self.wine.builder.get_object(widget).get_children()[0].get_children():
-                gobject.idle_add(lambda: self.wine.builder.get_object(widget).get_children()[0].remove(self.wine.builder.get_object(widget).get_children()[0].get_children()[0]) and False)
+                #gobject.idle_add(lambda:  self.wine.builder.get_object(widget).get_children()[0].remove(self.wine.builder.get_object(widget).get_children()[0].get_children()[0]) and False)
+                gtk.gdk.threads_enter()
+                self.wine.builder.get_object(widget).get_children()[0].remove(self.wine.builder.get_object(widget).get_children()[0].get_children()[0])
+                gtk.gdk.threads_leave()
 
         if host:
             data_sources = self.connection.host.get_data_sources(self.session_uuid, ref)

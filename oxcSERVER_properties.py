@@ -239,27 +239,33 @@ class oxcSERVERproperties:
          print res
 
     def set_vm_memory(self, ref, memory):
-       res = self.connection.VM.set_memory_dynamic_min(self.session_uuid, ref, str(int(memory*1024*1024)))
+       res = self.connection.VM.set_memory_limits(self.session_uuid, ref, str(16777216),  str(int(memory*1024*1024)), str(int(memory*1024*1024)), str(int(memory*1024*1024)))
        if "Value" in res:
           self.track_tasks[res['Value']] = ref
        else:
-           print res        
-
-       res = self.connection.VM.set_memory_static_min(self.session_uuid, ref, str(int(memory*1024*1024)))
-       if "Value" in res:
-          self.track_tasks[res['Value']] = ref
-       else:
-           print res        
-       res = self.connection.VM.set_memory_static_max(self.session_uuid, ref, str(int(memory*1024*1024)))
-       if "Value" in res:
-          self.track_tasks[res['Value']] = ref
-       else:
-           print res        
-       res = self.connection.VM.set_memory_dynamic_max(self.session_uuid, ref, str(int(memory*1024*1024)))
-       if "Value" in res:
-          self.track_tasks[res['Value']] = ref
-       else:
-           print res        
+           if res["ErrorDescription"][0] == "MESSAGE_METHOD_UNKNOWN":
+               res = self.connection.VM.set_memory_static_min(self.session_uuid, ref,  str(int(memory*1024*1024)))
+               if "Value" in res:
+                  self.track_tasks[res['Value']] = ref
+               else:
+                   print res        
+               res = self.connection.VM.set_memory_dynamic_min(self.session_uuid, ref, str(int(memory*1024*1024)))
+               if "Value" in res:
+                  self.track_tasks[res['Value']] = ref
+               else:
+                   print res        
+               res = self.connection.VM.set_memory_static_max(self.session_uuid, ref, str(int(memory*1024*1024)))
+               if "Value" in res:
+                  self.track_tasks[res['Value']] = ref
+               else:
+                   print res        
+               res = self.connection.VM.set_memory_dynamic_max(self.session_uuid, ref, str(int(memory*1024*1024)))
+               if "Value" in res:
+                  self.track_tasks[res['Value']] = ref
+               else:
+                   print res        
+           else:
+               print res
 
     def set_vm_vcpus(self, ref, vcpus):
        res = self.connection.VM.set_VCPUs_at_startup(self.session_uuid, ref, str(int(vcpus)))
