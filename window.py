@@ -1674,16 +1674,13 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         on the dialog.
         http://www.pygtk.org/articles/extending-our-pygtk-application/extending-our-pygtk-application.htm
         """
-        error_dlg = gtk.MessageDialog(type=gtk.MESSAGE_ERROR
-                    , message_format=error_string
-                    , buttons=gtk.BUTTONS_OK
-                    )
-        error_dlg.set_position(gtk.WIN_POS_CENTER_ALWAYS)
-        error_dlg.set_title(error_title);
-        error_dlg.set_modal(True);
-        error_dlg.set_urgency_hint(True);
-        error_dlg.run()
-        error_dlg.destroy() 
+        self.builder.get_object("walert").set_title(error_title)
+        self.builder.get_object("walert").set_markup(error_string)
+        self.builder.get_object("walert").show()
+
+    def on_closewalert_clicked(self, widget, data=None):
+        self.builder.get_object("walert").hide()
+
 
     def push_alert(self, alert):
         """
