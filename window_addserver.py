@@ -80,7 +80,6 @@ class oxcWindowAddServer:
         """
         if success:
             # Create a new thread it receives updates
-            self.xc_servers[self.selected_host].thread_event_next()
             # Fill alerts list on "alerts" window
             self.xc_servers[self.selected_host].fill_alerts(self.listalerts)
             self.update_n_alerts()
@@ -90,6 +89,8 @@ class oxcWindowAddServer:
         # Setting again the modelfiter it will be refresh internal path/references
         self.treeview.set_model(self.modelfilter)
         self.treeview.expand_all()
+        self.xc_servers[self.selected_host].thread_event_next()
+
     def hide_wprogressconnect(self):
         self.builder.get_object("wprogressconnect").hide()
         
