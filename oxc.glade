@@ -5380,33 +5380,36 @@
                                       <object class="GtkEventBox" id="eventbox106">
                                         <property name="visible">True</property>
                                         <child>
-                                          <object class="GtkFixed" id="fixed151">
+                                          <object class="GtkNotebook" id="notebook2">
                                             <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
                                             <child>
-                                              <object class="GtkFrame" id="frame25">
-                                                <property name="width_request">400</property>
-                                                <property name="height_request">120</property>
+                                              <object class="GtkEventBox" id="eventbox107">
                                                 <property name="visible">True</property>
-                                                <property name="label_xalign">0</property>
-                                                <property name="shadow_type">none</property>
                                                 <child>
-                                                  <object class="GtkAlignment" id="alignment58">
+                                                  <object class="GtkFixed" id="fixed151">
                                                     <property name="visible">True</property>
-                                                    <property name="left_padding">12</property>
                                                     <child>
-                                                      <object class="GtkViewport" id="viewport62">
+                                                      <object class="GtkFrame" id="frame26">
+                                                        <property name="width_request">400</property>
+                                                        <property name="height_request">150</property>
                                                         <property name="visible">True</property>
-                                                        <property name="resize_mode">queue</property>
+                                                        <property name="label_xalign">0</property>
+                                                        <property name="shadow_type">none</property>
                                                         <child>
-                                                          <object class="GtkFixed" id="fixed153">
+                                                          <object class="GtkAlignment" id="alignment59">
+                                                            <property name="visible">True</property>
+                                                            <property name="left_padding">12</property>
+                                                            <child>
+                                                            <object class="GtkFixed" id="fixed154">
                                                             <property name="visible">True</property>
                                                             <child>
-                                                            <object class="GtkLabel" id="label119">
+                                                            <object class="GtkLabel" id="label125">
                                                             <property name="width_request">150</property>
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Minimun Memory</property>
+                                                            <property name="label" translatable="yes">Minimun Memory:</property>
                                                             </object>
                                                             <packing>
                                                             <property name="x">5</property>
@@ -5414,12 +5417,12 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkLabel" id="label120">
-                                                            <property name="width_request">120</property>
+                                                            <object class="GtkLabel" id="label131">
+                                                            <property name="width_request">150</property>
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Maximun Memory</property>
+                                                            <property name="label" translatable="yes">Maximun Memory:</property>
                                                             </object>
                                                             <packing>
                                                             <property name="x">5</property>
@@ -5427,34 +5430,555 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkLabel" id="label121">
-                                                            <property name="width_request">120</property>
+                                                            <object class="GtkLabel" id="label132">
+                                                            <property name="width_request">150</property>
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Static Maximun</property>
+                                                            <property name="label" translatable="yes">Static Maximun:</property>
                                                             </object>
                                                             <packing>
                                                             <property name="x">5</property>
                                                             <property name="y">60</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <object class="GtkEntry" id="txtdynamicmin">
+                                                            <property name="width_request">60</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">&#x25CF;</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">200</property>
+                                                            <property name="y">10</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkEntry" id="txtdynamicmax">
+                                                            <property name="width_request">60</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">&#x25CF;</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">200</property>
+                                                            <property name="y">35</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkEntry" id="txtstaticmax">
+                                                            <property name="width_request">60</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">&#x25CF;</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">200</property>
+                                                            <property name="y">60</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label133">
+                                                            <property name="width_request">20</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">MB</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">265</property>
+                                                            <property name="y">10</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label134">
+                                                            <property name="width_request">20</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="label" translatable="yes">MB</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">265</property>
+                                                            <property name="y">35</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label135">
+                                                            <property name="width_request">20</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="label" translatable="yes">MB</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">265</property>
+                                                            <property name="y">60</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label136">
+                                                            <property name="width_request">300</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="label" translatable="yes">* Static Maximun only could be changed on halted VMs</property>
+                                                            <attributes>
+                                                            <attribute name="size" value="8000"/>
+                                                            </attributes>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">10</property>
+                                                            <property name="y">85</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="btapplymemory">
+                                                            <property name="label" translatable="yes">Apply</property>
+                                                            <property name="width_request">80</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">200</property>
+                                                            <property name="y">110</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                          </object>
+                                                        </child>
+                                                        <child type="label">
+                                                          <object class="GtkLabel" id="label137">
+                                                            <property name="visible">True</property>
+                                                            <property name="label" translatable="yes">&lt;b&gt;Set Memory&lt;/b&gt;</property>
+                                                            <property name="use_markup">True</property>
                                                           </object>
                                                         </child>
                                                       </object>
+                                                      <packing>
+                                                        <property name="x">15</property>
+                                                        <property name="y">158</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkFrame" id="frame25">
+                                                        <property name="width_request">400</property>
+                                                        <property name="height_request">120</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="label_xalign">0</property>
+                                                        <property name="shadow_type">none</property>
+                                                        <child>
+                                                          <object class="GtkAlignment" id="alignment58">
+                                                            <property name="visible">True</property>
+                                                            <property name="left_padding">12</property>
+                                                            <child>
+                                                            <object class="GtkFixed" id="fixed153">
+                                                            <property name="visible">True</property>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label121">
+                                                            <property name="width_request">150</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">Minimun Memory:</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">5</property>
+                                                            <property name="y">10</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label122">
+                                                            <property name="width_request">120</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">Maximun Memory:</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">5</property>
+                                                            <property name="y">35</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label123">
+                                                            <property name="width_request">120</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">Static Maximun:</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">5</property>
+                                                            <property name="y">60</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="lbldynamicmin">
+                                                            <property name="width_request">100</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">label</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">200</property>
+                                                            <property name="y">10</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="lbldynamicmax">
+                                                            <property name="width_request">100</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">label</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">200</property>
+                                                            <property name="y">35</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="lblstaticmax">
+                                                            <property name="width_request">100</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">label</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">200</property>
+                                                            <property name="y">60</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                          </object>
+                                                        </child>
+                                                        <child type="label">
+                                                          <object class="GtkLabel" id="label124">
+                                                            <property name="visible">True</property>
+                                                            <property name="use_markup">True</property>
+                                                          </object>
+                                                        </child>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="x">15</property>
+                                                        <property name="y">15</property>
+                                                      </packing>
                                                     </child>
                                                   </object>
                                                 </child>
-                                                <child type="label">
-                                                  <object class="GtkLabel" id="label118">
+                                              </object>
+                                            </child>
+                                            <child type="tab">
+                                              <object class="GtkLabel" id="label118">
+                                                <property name="visible">True</property>
+                                                <property name="label" translatable="yes">page 1</property>
+                                              </object>
+                                              <packing>
+                                                <property name="tab_fill">False</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkEventBox" id="eventbox108">
+                                                <property name="visible">True</property>
+                                                <child>
+                                                  <object class="GtkFixed" id="fixed155">
                                                     <property name="visible">True</property>
-                                                    <property name="use_markup">True</property>
+                                                    <child>
+                                                      <object class="GtkFrame" id="frame27">
+                                                        <property name="width_request">400</property>
+                                                        <property name="height_request">120</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="label_xalign">0</property>
+                                                        <property name="shadow_type">none</property>
+                                                        <child>
+                                                          <object class="GtkAlignment" id="alignment60">
+                                                            <property name="visible">True</property>
+                                                            <property name="left_padding">12</property>
+                                                            <child>
+                                                            <object class="GtkFixed" id="fixed156">
+                                                            <property name="visible">True</property>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label120">
+                                                            <property name="width_request">150</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">Minimun Memory:</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">5</property>
+                                                            <property name="y">10</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label138">
+                                                            <property name="width_request">120</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">Maximun Memory:</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">5</property>
+                                                            <property name="y">35</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="lbldynamicmin1">
+                                                            <property name="width_request">100</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">label</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">200</property>
+                                                            <property name="y">10</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="lbldynamicmax1">
+                                                            <property name="width_request">100</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">label</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">200</property>
+                                                            <property name="y">35</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                          </object>
+                                                        </child>
+                                                        <child type="label">
+                                                          <object class="GtkLabel" id="label140">
+                                                            <property name="visible">True</property>
+                                                            <property name="use_markup">True</property>
+                                                          </object>
+                                                        </child>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="x">15</property>
+                                                        <property name="y">15</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkFrame" id="frame28">
+                                                        <property name="width_request">400</property>
+                                                        <property name="height_request">250</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="label_xalign">0</property>
+                                                        <property name="shadow_type">none</property>
+                                                        <child>
+                                                          <object class="GtkAlignment" id="alignment61">
+                                                            <property name="visible">True</property>
+                                                            <property name="left_padding">12</property>
+                                                            <child>
+                                                            <object class="GtkFixed" id="fixedsetmemory">
+                                                            <property name="visible">True</property>
+                                                            <child>
+                                                            <object class="GtkButton" id="btapplymemory1">
+                                                            <property name="label" translatable="yes">Apply</property>
+                                                            <property name="width_request">80</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">200</property>
+                                                            <property name="y">200</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkRadioButton" id="radiomemstatic">
+                                                            <property name="label" translatable="yes">Set a fixed memory of:</property>
+                                                            <property name="width_request">200</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">5</property>
+                                                            <property name="y">10</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label139">
+                                                            <property name="width_request">100</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">Memory:</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">30</property>
+                                                            <property name="y">40</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkEntry" id="txtfixedmemory">
+                                                            <property name="width_request">60</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">&#x25CF;</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">200</property>
+                                                            <property name="y">40</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label143">
+                                                            <property name="width_request">20</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="label" translatable="yes">MB</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">270</property>
+                                                            <property name="y">40</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkRadioButton" id="radiomemdynamic">
+                                                            <property name="label" translatable="yes">Automatically allocate memory within this range:</property>
+                                                            <property name="width_request">350</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            <property name="group">radiomemstatic</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">5</property>
+                                                            <property name="y">80</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label144">
+                                                            <property name="width_request">120</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">Minimun Memory:</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">30</property>
+                                                            <property name="y">110</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label145">
+                                                            <property name="width_request">120</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">Maximun Memory:</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">30</property>
+                                                            <property name="y">140</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkEntry" id="txtdynamicmin1">
+                                                            <property name="width_request">60</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">&#x25CF;</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">200</property>
+                                                            <property name="y">115</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkEntry" id="txtdynamicmax1">
+                                                            <property name="width_request">60</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">&#x25CF;</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">200</property>
+                                                            <property name="y">140</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label146">
+                                                            <property name="width_request">20</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="label" translatable="yes">MB</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">270</property>
+                                                            <property name="y">115</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label147">
+                                                            <property name="width_request">20</property>
+                                                            <property name="height_request">20</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="label" translatable="yes">MB</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x">270</property>
+                                                            <property name="y">140</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                          </object>
+                                                        </child>
+                                                        <child type="label">
+                                                          <object class="GtkLabel" id="label150">
+                                                            <property name="visible">True</property>
+                                                            <property name="label" translatable="yes">&lt;b&gt;Set Memory&lt;/b&gt;</property>
+                                                            <property name="use_markup">True</property>
+                                                          </object>
+                                                        </child>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="x">15</property>
+                                                        <property name="y">158</property>
+                                                      </packing>
+                                                    </child>
                                                   </object>
                                                 </child>
                                               </object>
                                               <packing>
-                                                <property name="x">15</property>
-                                                <property name="y">15</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                            <child type="tab">
+                                              <object class="GtkLabel" id="label119">
+                                                <property name="visible">True</property>
+                                                <property name="label" translatable="yes">page 2</property>
+                                              </object>
+                                              <packing>
+                                                <property name="position">1</property>
+                                                <property name="tab_fill">False</property>
                                               </packing>
                                             </child>
                                           </object>
@@ -8513,10 +9037,10 @@ is useful and you use it, your donation will help their development.</property>
     <property name="default_width">640</property>
     <property name="default_height">480</property>
     <property name="type_hint">normal</property>
-    <property name="action">save</property>
     <property name="preview_widget_active">False</property>
     <property name="use_preview_label">False</property>
     <property name="do_overwrite_confirmation">True</property>
+    <property name="action">save</property>
     <signal name="confirm_overwrite" handler="on_filesave_confirm_overwrite"/>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox3">
@@ -19012,9 +19536,9 @@ Are you sure you want to detach this storage repository?</property>
     <property name="title" translatable="yes">Backup Server</property>
     <property name="window_position">center</property>
     <property name="type_hint">normal</property>
-    <property name="action">save</property>
     <property name="filter">filefilterbackupserver</property>
     <property name="do_overwrite_confirmation">True</property>
+    <property name="action">save</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox46">
         <property name="visible">True</property>
@@ -19783,8 +20307,8 @@ and transition it into maintenance mode.</property>
     <property name="title" translatable="yes">Save Database Pool</property>
     <property name="window_position">center</property>
     <property name="type_hint">normal</property>
-    <property name="action">save</property>
     <property name="filter">filterfilepoolbackupdb</property>
+    <property name="action">save</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox66">
         <property name="visible">True</property>
@@ -20377,9 +20901,9 @@ Do you want force join to pool?</property>
     <property name="window_position">center</property>
     <property name="type_hint">normal</property>
     <property name="has_separator">False</property>
-    <property name="action">save</property>
     <property name="filter">filefilterbackupserver</property>
     <property name="do_overwrite_confirmation">True</property>
+    <property name="action">save</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox80">
         <property name="visible">True</property>
@@ -21638,8 +22162,8 @@ Author: David Markey &lt;david.markey@citrix.com&gt;</property>
     <property name="title" translatable="yes">Save Status Report</property>
     <property name="window_position">center</property>
     <property name="type_hint">normal</property>
-    <property name="action">save</property>
     <property name="do_overwrite_confirmation">True</property>
+    <property name="action">save</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox86">
         <property name="visible">True</property>
