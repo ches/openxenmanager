@@ -109,8 +109,10 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 self.hostname = host
                 self.session_uuid = self.session['Value']
                 self.connection.event.register(self.session_uuid, ["*"])
-                self.session_uuid_events = \
-                    self.connection.session.login_with_password(user, password) 
+                self.session_events = \
+                    self.connection_events.session.login_with_password(user, password) 
+		self.session_events_uuid = self.session_events['Value']
+                self.connection_events.event.register(self.session_events_uuid, ["*"])
             else:
                 self.error_connecting = self.session['ErrorDescription'][2]
         except:
@@ -1818,7 +1820,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
     def event_next(self):
         while not self.halt:
             try:
-                eventn = self.connection_events.event.next(self.session_uuid_events)
+                eventn = self.connection_events.event.next(self.session_events_uuid)
                 if "Value" in eventn:
                     for event in eventn["Value"]:
                            if event['class'] == "vm":
