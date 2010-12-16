@@ -569,7 +569,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         for i in range(54,68):
             self.builder.get_object("eventbox" + str(i)).modify_bg(gtk.STATE_NORMAL, white)
         self.builder.get_object("eventbox67").modify_bg(gtk.STATE_NORMAL, blue)
-        for i in range(68,105):
+        for i in range(68,106):
             self.builder.get_object("eventbox" + str(i)).modify_bg(gtk.STATE_NORMAL, white)
         self.builder.get_object("eventbox76").modify_bg(gtk.STATE_NORMAL, blue)
 
@@ -642,7 +642,8 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 "btexitfullscreen", "bteditcustomfields", "addcustomfield", "deletecustomfield", "cancelwcustomfields",
                 "acceptwcustomfields", "btexportmap", "rescanisos", "btnewstgsaoescan", "btsnapnewvm",
                 "btsnapcreatetpl", "btsnapexport", "btsnapexportvm", "btsnapdelete", "btsnaprevert", "acceptdialogrevert", "canceldialogrevert",
-                "acceptconfirmshutdown", "cancelconfirmshutdown", "acceptlicensehost", "cancellicensehost", "btcopytext"
+                "acceptconfirmshutdown", "cancelconfirmshutdown", "acceptlicensehost", "cancellicensehost", "btcopytext", "btleavedomain",
+                "btjoindomain", "btadduser", "btremoveuser", "btlogoutuser", "btchangerole"
                 ]:
             self.builder.get_object(button).modify_bg(gtk.STATE_NORMAL, blue)
             self.builder.get_object(button).modify_bg(gtk.STATE_ACTIVE, blue)
@@ -870,12 +871,12 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         Function called when you select a element from left tree
         Depending selected type show or hide differents tabs
         """
-        frames = ("framestggeneral","framestgdisks","framevmgeneral", "framevmstorage", "framevmnetwork", "framehostgeneral", "framehostnetwork", "framehoststorage",  "frameconsole", "framehostnics", "framesnapshots","frameperformance","frametplgeneral","framehome","frameconsole", "framepoolgeneral", "framelogs", "framesearch", "framemaps", "framehosthw")
+        frames = ("framestggeneral", "framememory","framestgdisks","framevmgeneral", "framevmstorage", "framevmnetwork", "framehostgeneral", "framehostnetwork", "framehoststorage",  "frameconsole", "framehostnics", "framesnapshots","frameperformance","frametplgeneral","framehome","frameconsole", "framepoolgeneral", "framelogs", "framesearch", "frameusers", "framemaps", "framehosthw")
         showframes = {
             "pool" : ["framepoolgeneral", "framelogs", "framesearch", "framemaps"],
             "home" : ["framehome"],
-            "vm"   : ["framevmgeneral", "framevmstorage", "framevmnetwork", "framelogs", "framesnapshots","frameperformance"],
-            "host" : ["framesearch","framehostgeneral", "framehostnetwork", "framehoststorage", "framelogs", "frameconsole", "framehostnics", "frameperformance", "framemaps"],
+            "vm"   : ["framevmgeneral", "framememory", "framevmstorage", "framevmnetwork", "framelogs", "framesnapshots","frameperformance"],
+            "host" : ["framesearch","framehostgeneral", "framehostnetwork", "framehoststorage", "framelogs", "frameconsole", "framehostnics", "frameperformance", "frameusers", "framemaps"],
             "template" : ["frametplgeneral","framevmnetwork","framehostgeneral"],
             "custom_template" : ["frametplgeneral","framevmnetwork", "framevmstorage", "framelogs"],
             "storage" :  ["framestggeneral","framestgdisks", "framelogs"],
@@ -900,6 +901,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 self.builder.get_object("framehosthw").show()
             else:
                 self.builder.get_object("framehosthw").hide()
+
 
         elif self.selected_type == "template":
             self.xc_servers[self.selected_host].update_tab_template(self.selected_ref, self.builder)     
@@ -1322,6 +1324,29 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 else:
                     self.xc_servers[host].fill_vm_log(self.selected_uuid, \
                                              treeviewlog, listlog)
+
+        elif tab_label == "HOST_Users":
+            if self.selected_type == "pool":
+                name =  self.xc_servers[self.selected_host].all_pools[self.selected_ref]['name_label']
+                externalauth =  self.xc_servers[self.selected_host].get_external_auth(self.xc_servers[self.selected_host]['master'])
+            else:
+                name = self.xc_servers[self.selected_host].all_hosts[self.selected_ref]['name_label']
+                externalauth =  self.xc_servers[self.selected_host].get_external_auth(self.selected_ref)
+
+
+            listusers = self.builder.get_object("listusers")
+            self.xc_servers[self.selected_host].fill_domain_users(self.selected_ref, listusers)
+
+
+            if externalauth[0] == "":
+                self.builder.get_object("btjoindomain").set_sensitive(True)
+                self.builder.get_object("btleavedomain").set_sensitive(False)
+                self.builder.get_object("lblusersdomain").set_text("AD is not currently configured for '" + self.selected_name + "'. To enable AD authentication, click Join.")
+            else:
+                self.builder.get_object("btleavedomain").set_sensitive(True)
+                self.builder.get_object("btjoindomain").set_sensitive(False)
+                self.builder.get_object("lblusersdomain").set_text("Pool/host " + self.selected_name + " belongs to domain '" + externalauth[1] + "'. To enable AD authentication, click Join.")
+
 
         elif tab_label == "HOST_Storage":
             if self.treeview.get_cursor()[1]:

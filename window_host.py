@@ -29,6 +29,49 @@ class oxcWindowHost(oxcWindowHostNics, oxcWindowHostNetwork):
     """
     Class to manage host tabs, host properties and host functions 
     """
+
+    def on_btleavedomain_clicked(self, widget, data=None):
+        """
+        Press "Leave Domain" on Users tab
+        """
+        pass
+
+    def on_btjoindomain_clicked(self, widget, data=None):
+        """
+        Press "Join Domain" on Users tab
+        """
+        pass
+
+    def on_btadduser_clicked(self, widget, data=None):
+        """
+        Press "Add user" on Users tab
+        """
+        pass
+
+    def on_btremoveuser_clicked(self, widget, data=None):
+        """
+        Press "Remove user" on Users tab
+        """
+        pass
+
+    def on_btlogoutuser_clicked(self, widget, data=None):
+        """
+        Press "Logout User" on Users tab
+        """
+        pass
+
+    def on_treeusers_cursor_changed(self, widget, data=None):
+        """
+        Selected row in treeusers treeview
+        """
+        pass
+
+    def on_btchangerole_clicked(self, widget, data=None):
+        """
+        Press "Join Domain" on Users tab
+        """
+        pass
+
     def on_cancelfileexportmap_clicked(self, widget, data=None):
         """
         Cancel dialog file export map to png

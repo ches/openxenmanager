@@ -129,6 +129,15 @@ class oxcSERVERaddserver:
             self.all_storage = self.connection.SR.get_all_records(self.session_uuid)['Value']
             self.wine.update_progressconnect()
             self.all_console = self.connection.console.get_all_records(self.session_uuid)['Value']
+
+            try:
+                self.all_subject= self.connection.subject.get_all_records(self.session_uuid)['Value']
+                self.all_role = self.connection.role.get_all_records(self.session_uuid)['Value']
+            except:
+                pass
+
+ 
+
         poolroot = None 
         hostroot = {}
         root = ""

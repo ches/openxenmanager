@@ -90,8 +90,10 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
     def connect(self, host, user, password, wine, ssl):
         if ssl:
             self.connection = xmlrpclib.Server("https://%s" % host)
+            self.connection_events = xmlrpclib.Server("https://%s" % host)
         else:
             self.connection = xmlrpclib.Server("http://%s" % host)
+            self.connection_events = xmlrpclib.Server("http://%s" % host)
         self.host = host
         self.hostname = host
         self.wine = wine
@@ -107,6 +109,8 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 self.hostname = host
                 self.session_uuid = self.session['Value']
                 self.connection.event.register(self.session_uuid, ["*"])
+                self.session_uuid_events = \
+                    self.connection.session.login_with_password(user, password) 
             else:
                 self.error_connecting = self.session['ErrorDescription'][2]
         except:
@@ -1814,7 +1818,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
     def event_next(self):
         while not self.halt:
             try:
-                eventn = self.connection.event.next(self.session_uuid)
+                eventn = self.connection_events.event.next(self.session_uuid_events)
                 if "Value" in eventn:
                     for event in eventn["Value"]:
                            if event['class'] == "vm":

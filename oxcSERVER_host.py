@@ -89,7 +89,6 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
             self.connection.session.change_password(self.session_uuid, old, new)
             self.password = new
     def install_license_key(self, ref, filename):
-        #<?xml version="1.0"?><methodCall><methodName>Async.host.license_apply</methodName><params><param><value><string>OpaqueRef:6ca29e5a-7a6f-1024-4449-79aea800f583</string></value></param><param><value><string>OpaqueRef:480dede4-930b-1b5c-54a8-73d38fa56d3a</string></value></param><param><value><string>bWUgZ3VzdGFuIGxvcyBtYWNhcnJvbmVzDQp5IGxvcyBmaWRlb3MNCnkgbG9zIHNwYWdndWV0aXMNCnkgdG9kbyB0aXBvIGRlIHBhc3Rh</string></value></param></params></methodCall>
         encoded = open(filename, "rb").read().encode("base64").replace("\n","")
         res = self.connection.host.license_apply(self.session_uuid, ref, encoded)
         if "Value" in res:
@@ -151,6 +150,31 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
             self.track_tasks[res['Value']] = pool_ref
         else:
             print res
+
+    def get_external_auth(self, ref):
+        return [self.all_hosts[ref]['external_auth_type'],  self.all_hosts[ref]['external_auth_service_name'], \
+                self.all_hosts[ref]['external_auth_configuration']]
+
+    def fill_domain_users(self, ref, listusers):
+        users_logged = self.connection.session.get_all_subject_identifiers(self.session_uuid)['Value']
+        users = {}
+        if self.all_hosts[ref]['external_auth_type']:
+            listusers.append(("000", "", "-", "Local root account\n(Always granted access)"))
+            for user in self.all_subject:
+                users[self.all_subject[user]['subject_identifier']] = self.all_subject[user]['other_config']
+                roles = []
+                for role in self.all_subject[user]['roles']:
+                    roles.append(self.all_role[role]['name_label'])
+
+                users[self.all_subject[user]['subject_identifier']]['roles'] = roles
+                users[self.all_subject[user]['subject_identifier']]['ref'] = user 
+                if self.all_subject[user]['subject_identifier'] in users_logged:
+                    logged = "Yes"
+                else:
+                    logged = "No"
+
+                listusers.append((user, " ".join(roles), logged, self.all_subject[user]['other_config']['subject-gecos'] + "\n" + self.all_subject[user]['other_config']['subject-name']))
+
 
     def has_hardware_script(self, ref):
         error = self.connection.host.call_plugin(self.session_uuid, ref, "dmidecode", "test", {})
