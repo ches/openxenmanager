@@ -108,9 +108,8 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 self.host = host
                 self.hostname = host
                 self.session_uuid = self.session['Value']
-                self.connection.event.register(self.session_uuid, ["*"])
                 self.session_events = \
-                    self.connection_events.session.login_with_password(user, password) 
+                self.connection_events.session.login_with_password(user, password) 
 		self.session_events_uuid = self.session_events['Value']
                 self.connection_events.event.register(self.session_events_uuid, ["*"])
             else:
@@ -617,7 +616,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 "vm", self.all_vms[vm]['power_state'], self.host,
                 vm, self.all_vms[vm]['allowed_operations'],  self.all_hosts[resident]['address']])
 
-        elif self.all_vms[vm]['affinity'] != "OpaqueRef:NULL" and self.all_vms[vm]['affinity'] in self.all_vms:
+        elif self.all_vms[vm]['affinity'] != "OpaqueRef:NULL" and self.all_vms[vm]['affinity'] in self.hostroot:
               affinity = self.all_vms[vm]['affinity']
               self.treestore.prepend(self.hostroot[self.all_vms[vm]['affinity']], [\
                   gtk.gdk.pixbuf_new_from_file("images/tree_%s_16.png"\

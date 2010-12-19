@@ -641,15 +641,15 @@ class oxcWindowProperties:
             if change:
                 self.xc_servers[self.selected_host].set_vm_other_config(self.selected_ref, other_config)
 
-        if "HVM_shadow_multiplier" in vm:
-            if self.builder.get_object("optimizegeneraluse").get_active():
-                multiplier = "1.00"
-            elif self.builder.get_object("optimizeforxenapp").get_active():
-                multiplier = "4.00"
-            else:
-                multiplier = self.builder.get_object("memorymultiplier").get_text()
-            if multiplier != str(vm["HVM_shadow_multiplier"]):
-                self.xc_servers[self.selected_host].set_vm_memory_multiplier(self.selected_ref, multiplier)
+            if "HVM_shadow_multiplier" in vm:
+                if self.builder.get_object("optimizegeneraluse").get_active():
+                    multiplier = "1.00"
+                elif self.builder.get_object("optimizeforxenapp").get_active():
+                    multiplier = "4.00"
+                else:
+                    multiplier = self.builder.get_object("memorymultiplier").get_text()
+                if multiplier != str(vm["HVM_shadow_multiplier"]):
+                    self.xc_servers[self.selected_host].set_vm_memory_multiplier(self.selected_ref, multiplier)
 
         self.builder.get_object("dialogvmprop").hide()
         self.selected_widget = None
