@@ -574,6 +574,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
             self.builder.get_object("eventbox" + str(i)).modify_bg(gtk.STATE_NORMAL, white)
         self.builder.get_object("eventbox76").modify_bg(gtk.STATE_NORMAL, blue)
         self.builder.get_object("eventbox109").modify_bg(gtk.STATE_NORMAL, blue)
+        self.builder.get_object("eventbox109").modify_bg(gtk.STATE_NORMAL, white)
 
         for widget in ["dialogdismissall", "maintenancemode", "changepassword",
                      "dialogreconfigure", "detachstorage", "filebackupserver",
@@ -1714,7 +1715,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         http://www.pygtk.org/articles/extending-our-pygtk-application/extending-our-pygtk-application.htm
         """
         self.builder.get_object("walert").set_title(error_title)
-        self.builder.get_object("walert").set_markup(error_string)
+        self.builder.get_object("walerttext").set_text(error_string)
         self.builder.get_object("walert").show()
 
     def on_closewalert_clicked(self, widget, data=None):
