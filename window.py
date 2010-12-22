@@ -1162,6 +1162,13 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         if tab_label == "VM_Console":
             self.builder.get_object("menuitem_tools_cad").set_sensitive(True)
             self.treeview = self.builder.get_object("treevm") 
+            if hasattr(self,"vnc") and self.vnc:
+                if self.tunnel:
+                    self.tunnel.close()
+                self.vnc.destroy()
+                self.builder.get_object("windowvncundock").hide()
+                self.vnc = None
+
             if self.treeview.get_cursor()[1]:
                 state = self.selected_state
                 host =  self.selected_host
