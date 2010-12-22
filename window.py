@@ -1257,32 +1257,8 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 else:
                     print  state
         if tab_label == "VM_Memory":
-            if self.treeview.get_cursor()[1]:
-                dynamicmin = self.xc_servers[self.selected_host].all_vms[self.selected_ref]["memory_dynamic_min"]
-                dynamicmax = self.xc_servers[self.selected_host].all_vms[self.selected_ref]["memory_dynamic_max"]
-                staticmin = self.xc_servers[self.selected_host].all_vms[self.selected_ref]["memory_static_min"]
-                staticmax = self.xc_servers[self.selected_host].all_vms[self.selected_ref]["memory_static_max"]
-                ishvm = self.xc_servers[self.selected_host].all_vms[self.selected_ref]["HVM_boot_policy"]
-                if ishvm:
-                    self.builder.get_object("lbldynamicmin").set_label(self.convert_bytes_mb(dynamicmin) + " MB")
-                    self.builder.get_object("lbldynamicmax").set_label(self.convert_bytes_mb(dynamicmax) + " MB")
-                    self.builder.get_object("lblstaticmax").set_label(self.convert_bytes_mb(staticmax) + " MB")
-
-                    self.builder.get_object("txtdynamicmin").set_text(self.convert_bytes_mb(dynamicmin))
-                    self.builder.get_object("txtdynamicmax").set_text(self.convert_bytes_mb(dynamicmax))
-                    self.builder.get_object("txtstaticmax").set_text(self.convert_bytes_mb(staticmax))
-
-                else:
-                    self.builder.get_object("lbldynamicmin1").set_label(self.convert_bytes_mb(dynamicmin) + " MB")
-                    self.builder.get_object("lbldynamicmax1").set_label(self.convert_bytes_mb(dynamicmax) + " MB")
-                    self.builder.get_object("txtfixedmemory").set_text(self.convert_bytes_mb(staticmax))
-
-                    self.builder.get_object("txtdynamicmin1").set_text(self.convert_bytes_mb(dynamicmin))
-                    self.builder.get_object("txtdynamicmax1").set_text(self.convert_bytes_mb(dynamicmax))
-
-                    self.builder.get_object("radiomemdynamic").set_active(dynamicmin != dynamicmax)
-
-
+            self.update_memory_tab()
+            
 
         if tab_label == "VM_Storage":
             if self.treeview.get_cursor()[1]:

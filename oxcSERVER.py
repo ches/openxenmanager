@@ -1894,6 +1894,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                             self.all_vms[event["ref"]] =  event['snapshot']
                                     self.all_vms[event["ref"]] =  event['snapshot']
                                     self.treestore.foreach(self.update_vm_status, "")
+                                    gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
                            else:
                                 if event['class'] == "vm_guest_metrics":
                                     self.all_vm_guest_metrics[event['ref']] = self.connection.VM_guest_metrics.get_record(self.session_uuid, event['ref'])

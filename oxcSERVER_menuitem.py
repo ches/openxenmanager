@@ -39,14 +39,14 @@ from capabilities import capabilities_text
 class oxcSERVERmenuitem:
     last_pool_data = []
     def pause_vm(self, ref):
-        res = self.connection.VM.pause(self.session_uuid, ref)
+        res = self.connection.Async.VM.pause(self.session_uuid, ref)
         if "Value" in res:
             self.track_tasks[res['Value']] = ref
         else:
             print res
 
     def unsuspend_vm(self, ref):
-        res = self.connection.VM.unsuspend(self.session_uuid, ref)
+        res = self.connection.Async.VM.unsuspend(self.session_uuid, ref)
         if "Value" in res:
             self.track_tasks[res['Value']] = ref
         else:
