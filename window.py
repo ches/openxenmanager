@@ -125,6 +125,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
     selected_widget = None
     selected_state = None
 
+    noclosevnc = False
     # If "Use master password" is enabled, password typed is set on it
     password = None
     reattach_storage = False
@@ -572,6 +573,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         for i in range(68,109):
             self.builder.get_object("eventbox" + str(i)).modify_bg(gtk.STATE_NORMAL, white)
         self.builder.get_object("eventbox76").modify_bg(gtk.STATE_NORMAL, blue)
+        self.builder.get_object("eventbox109").modify_bg(gtk.STATE_NORMAL, blue)
 
         for widget in ["dialogdismissall", "maintenancemode", "changepassword",
                      "dialogreconfigure", "detachstorage", "filebackupserver",
@@ -638,7 +640,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 "acceptfilereport", "cancelfilereport", "previouswindownewvm", "nextwindownewvm", "cancelwindownewvm",
                 "finishwindownewvm", "closeupdatemanager", "btuploadnewupdate", "btapplypatch", "btremoveupdate",
                 "acceptfilenewupdate", "cancelfilenewupdate", "btgraphtenmin",  "btgraphtwohours",
-                "btgraphoneweek", "btgraphoneyear", "btsendctraltdel", "btenterfullscreen", "btsendctrlaltdel2", 
+                "btgraphoneweek", "btgraphoneyear", "btsendctraltdel", "btenterfullscreen", "btundockconsole", "btsendctrlaltdel1", "btsendctrlaltdel2", "btredockconsole",
                 "btexitfullscreen", "bteditcustomfields", "addcustomfield", "deletecustomfield", "cancelwcustomfields",
                 "acceptwcustomfields", "btexportmap", "rescanisos", "btnewstgsaoescan", "btsnapnewvm",
                 "btsnapcreatetpl", "btsnapexport", "btsnapexportvm", "btsnapdelete", "btsnaprevert", "acceptdialogrevert", "canceldialogrevert",
@@ -1139,12 +1141,13 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         # Set as selected
         self.selected_tab = tab_label
         if tab_label != "VM_Console":
-            if self.tunnel:
+            if self.tunnel and not self.noclosevnc:
                 self.tunnel.close()
             # If vnc console was opened and we change to another, close it
             self.builder.get_object("menuitem_tools_cad").set_sensitive(False)
-            if hasattr(self,"vnc") and self.vnc:
+            if hasattr(self,"vnc") and self.vnc and not self.noclosevnc:
                 self.vnc.destroy()
+                self.builder.get_object("windowvncundock").hide()
                 self.vnc = None
             # Same on Windows
             if self.hWnd != 0:

@@ -60,7 +60,6 @@ class Tunnel:
             while data and self.halt == False:
                 if ord(data[0]) == 4 and self.translate:
                     if ord(data[7]) > 32 and ord(data[7]) < 127 and ord(data[7]) not in range(80, 91):
-                        print ord(data[7])
                         if self.key:
                             data = "\xfe" + data[1:7] + chr(int(self.key,16))
                         else:

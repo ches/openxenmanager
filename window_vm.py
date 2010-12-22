@@ -79,6 +79,8 @@ class oxcWindowVM(oxcWindowVMNetwork,oxcWindowVMStorage,oxcWindowVMSnapshot,oxcW
         Function called when you press "send ctrl alt del" on vm console
         """
         self.on_menuitem_tools_cad_activate(widget, data)
+
+
     def vnc_button_release(self, clipboard, data, user=None):
         global selection
         selection = data
@@ -105,6 +107,26 @@ class oxcWindowVM(oxcWindowVMNetwork,oxcWindowVMStorage,oxcWindowVMSnapshot,oxcW
             if text:
                 self.vnc.client_cut_text(text)
         clipboard.request_text(text_get_func)
+
+
+    def on_btundockconsole_clicked(self, widget, data=None):
+        """
+        Function called when you press "undock"
+        """
+        self.noclosevnc = True
+        self.builder.get_object("windowvncundock").show()
+        self.builder.get_object("console_area").remove(self.vnc)
+        self.builder.get_object("console_area3").add(self.vnc)
+
+    def on_btredockconsole_clicked(self, widget, data=None):
+        """
+        Function called when you press "redock"
+        """
+        self.builder.get_object("windowvncundock").hide()
+        self.builder.get_object("console_area3").remove(self.vnc)
+        self.builder.get_object("console_area").add(self.vnc)
+
+
 
     def on_btenterfullscreen_clicked(self, widget, data=None):
         """
