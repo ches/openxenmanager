@@ -1822,6 +1822,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 eventn = self.connection_events.event.next(self.session_events_uuid)
                 if "Value" in eventn:
                     for event in eventn["Value"]:
+			   #print event
                            if event['class'] == "vm":
                                 if event['operation'] == "add":
                                     self.all_vms[event["ref"]] =  event['snapshot']
@@ -1906,6 +1907,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                         #print event["snapshot"]["name_label"] + " " + event["snapshot"]["status"] + " " + str(event["snapshot"]["progress"]) + ":\t", event
                                         pass
                                     if event["snapshot"]["status"] == "success":
+				       #print "!!!!" +  event["snapshot"]["name_label"] + " " + event["snapshot"]["status"] + " " + str(event["snapshot"]["progress"]) + ":\t", event
                                        if event["ref"] in self.vboxchildprogressbar:
                                            self.vboxchildprogress[event["ref"]].hide()
                                            self.vboxchildprogressbar[event["ref"]].hide()
@@ -1913,7 +1915,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                     if event["snapshot"]["error_info"]:
                                         if event["ref"] in self.track_tasks:
                                             if self.track_tasks[event["ref"]] in self.all_vms:
-                                                self.wine.push_error_alert("%s %s %s" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"], event["snapshot"]["error_info"]))
+                                                gobject.idle_add(lambda: self.wine.push_error_alert("%s %s %s" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"], event["snapshot"]["error_info"])) and False)
                                                 eref =  event["ref"] 
                                                 if eref in self.vboxchildcancel:
                                                     self.vboxchildcancel[eref].hide()
@@ -1924,14 +1926,15 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                             else:
                                                 self.wine.builder.get_object("wprogressimportvm").hide()
                                                 self.wine.builder.get_object("tabboximport").set_current_page(2)
-                                                self.wine.push_error_alert("%s: %s" % (event["snapshot"]["name_description"], event["snapshot"]["error_info"]))
+                                                gobject.idle_add(lambda: self.wine.push_error_alert("%s: %s" % (event["snapshot"]["name_description"], event["snapshot"]["error_info"])) and False)
                                     else:
+				        #print "*****" +  event["snapshot"]["name_label"] + " " + event["snapshot"]["status"] + " " + str(event["snapshot"]["progress"]) + ":\t", event
                                         if event["ref"] in self.track_tasks:
                                             if self.track_tasks[event["ref"]] in self.all_vms:
                                                 if event["snapshot"]["status"] == "success":
-                                                    self.wine.push_alert("%s %s completed" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"]))
+                                                    gobject.idle_add(lambda: self.wine.push_alert("%s %s completed" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"])) and False)
                                                 else:
-                                                    self.wine.push_alert("%s %s %s" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"], (" %.2f%%" % (float(event["snapshot"]["progress"])*100))))
+                                                    gobject.idle_add(lambda: self.wine.push_alert("%s %s %s" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"], (" %.2f%%" % (float(event["snapshot"]["progress"])*100)))) and False)
                                             else:
                                                 vm = self.connection.VM.get_record(self.session_uuid, self.track_tasks[event["ref"]])
                                                 if "Value" in vm:
@@ -1939,9 +1942,9 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                                     #self.add_vm_to_tree(self.track_tasks[event["ref"]])
                                                     gobject.idle_add(lambda: self.wine.modelfilter.clear_cache() and False)
                                                     gobject.idle_add(lambda: self.wine.modelfilter.refilter() and False)
-                                                    self.wine.push_alert("%s %s %s" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"], (" %.2f%%" % (float(event["snapshot"]["progress"])*100))))
+                                                    gobject.idle_add(lambda: self.wine.push_alert("%s %s %s" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"], (" %.2f%%" % (float(event["snapshot"]["progress"])*100)))) and False)
                                                 else:
-                                                    self.wine.push_alert("%s: %s %s" % (event["snapshot"]["name_label"], event["snapshot"]["name_description"],  (" %.2f%%" % (float(event["snapshot"]["progress"])*100))))
+                                                    gobject.idle_add(lambda: self.wine.push_alert("%s: %s %s" % (event["snapshot"]["name_label"], event["snapshot"]["name_description"],  (" %.2f%%" % (float(event["snapshot"]["progress"])*100)))) and False)
                                         else:
                                              pass  #FIXME?
                                              #self.wine.push_alert(event["snapshot"]["name_label"] + (" %.2f%%" % (float(event["snapshot"]["progress"])*100)))
@@ -2076,16 +2079,15 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                             if self.track_tasks[event["ref"]] == self.wine.selected_ref and \
                                                 self.wine.selected_tab == "VM_Logs":
                                                 if event["ref"] in self.track_tasks and event["ref"] not in self.vboxchildprogressbar:
-                                                    self.fill_vm_log(self.wine.selected_uuid, thread=True)
+                                                    gobject.idle_add(lambda: self.fill_vm_log(self.wine.selected_uuid, thread=True) and False)
                                        else:
                                            if event["snapshot"]["name_label"] == "Exporting VM" and event["ref"] not in self.vboxchildprogressbar:
                                                self.track_tasks[event["ref"]] = self.wine.selected_ref 
                                                self.tasks[event["ref"]] = event
-                                               self.fill_vm_log(self.wine.selected_uuid, thread=True)
+                                               gobject.idle_add(lambda: self.fill_vm_log(self.wine.selected_uuid, thread=True) and False)
                                            else:
                                                 #print event
                                                pass
-
 
                                 else:
                                     #print event
