@@ -1822,7 +1822,6 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 eventn = self.connection_events.event.next(self.session_events_uuid)
                 if "Value" in eventn:
                     for event in eventn["Value"]:
-			   #print event
                            if event['class'] == "vm":
                                 if event['operation'] == "add":
                                     self.all_vms[event["ref"]] =  event['snapshot']
@@ -1907,7 +1906,6 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                         #print event["snapshot"]["name_label"] + " " + event["snapshot"]["status"] + " " + str(event["snapshot"]["progress"]) + ":\t", event
                                         pass
                                     if event["snapshot"]["status"] == "success":
-				       #print "!!!!" +  event["snapshot"]["name_label"] + " " + event["snapshot"]["status"] + " " + str(event["snapshot"]["progress"]) + ":\t", event
                                        if event["ref"] in self.vboxchildprogressbar:
                                            self.vboxchildprogress[event["ref"]].hide()
                                            self.vboxchildprogressbar[event["ref"]].hide()
@@ -1928,7 +1926,6 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                                 self.wine.builder.get_object("tabboximport").set_current_page(2)
                                                 gobject.idle_add(lambda: self.wine.push_error_alert("%s: %s" % (event["snapshot"]["name_description"], event["snapshot"]["error_info"])) and False)
                                     else:
-				        #print "*****" +  event["snapshot"]["name_label"] + " " + event["snapshot"]["status"] + " " + str(event["snapshot"]["progress"]) + ":\t", event
                                         if event["ref"] in self.track_tasks:
                                             if self.track_tasks[event["ref"]] in self.all_vms:
                                                 if event["snapshot"]["status"] == "success":
