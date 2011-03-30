@@ -110,7 +110,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 self.session_uuid = self.session['Value']
                 self.session_events = \
                 self.connection_events.session.login_with_password(user, password) 
-		self.session_events_uuid = self.session_events['Value']
+                self.session_events_uuid = self.session_events['Value']
                 self.connection_events.event.register(self.session_events_uuid, ["*"])
             else:
                 self.error_connecting = self.session['ErrorDescription'][2]
@@ -1380,10 +1380,10 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         if "devserial" in self.all_storage[ref]['sm_config']:
             devserial =  self.all_storage[ref]['sm_config']['devserial'].split("-",2)
             labels['lblstgserial'] =  devserial[0].upper() + " ID:"
-	    if len(devserial) > 1:
+        if len(devserial) > 1:
                 labels['lblstgscsi'] = devserial[1]
-	    else:
-		labels['lblstgscsi'] = devserial[0]
+        else:
+            labels['lblstgscsi'] = devserial[0]
         else:
             labels['lblstgscsi'] = ""
       

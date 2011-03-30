@@ -250,4 +250,4 @@ class oxcWindowVMNetwork:
         """
         self.builder.get_object("acceptaddnetwork").set_sensitive(True)
         self.builder.get_object("entrymac").set_sensitive(False)
-	
+

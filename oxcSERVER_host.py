@@ -152,11 +152,11 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
             print res
 
     def get_external_auth(self, ref):
-	if "external_auth_type" in self.all_hosts[ref]:
-		return [self.all_hosts[ref]['external_auth_type'],  self.all_hosts[ref]['external_auth_service_name'], \
-			self.all_hosts[ref]['external_auth_configuration']]
-	else:
-		return ["", "", ""]
+        if "external_auth_type" in self.all_hosts[ref]:
+            return [self.all_hosts[ref]['external_auth_type'],  self.all_hosts[ref]['external_auth_service_name'], \
+                self.all_hosts[ref]['external_auth_configuration']]
+        else:
+            return ["", "", ""]
 
     def fill_domain_users(self, ref, listusers):
         users_logged = self.connection.session.get_all_subject_identifiers(self.session_uuid)['Value']

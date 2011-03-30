@@ -40,10 +40,10 @@ class oxcWindowAlerts:
         """
         # For each alert, dismiss it
         self.listalerts.foreach(self.dismiss_all, "")
-	# Clear list
+        # Clear list
         self.builder.get_object("listalerts").clear()
         # Update number of alerts
-	self.update_n_alerts()
+        self.update_n_alerts()
         # And hide dialog asking confirmation
         self.builder.get_object("dialogdismissall").hide()
     def on_btdismissallno_clicked(self, widget, data=None):

@@ -281,7 +281,7 @@ class oxcSERVERmenuitem:
                         self.all_network[network]['other_config']["automatic"] == "true":
                     list.append(["interface " + str(i), "auto-generated", self.all_network[network]['name_label'].replace('Pool-wide network associated with eth','Network '), network])
                     i = i + 1
-	        list2.append([self.all_network[network]['name_label'].replace('Pool-wide network associated with eth','Network '), network])
+            list2.append([self.all_network[network]['name_label'].replace('Pool-wide network associated with eth','Network '), network])
     
     def fill_management_networks(self, list, network_ref):
         list.clear()

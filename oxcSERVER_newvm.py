@@ -83,14 +83,14 @@ class oxcSERVERnewvm:
             if storage['type'] != "iso" and storage['type'] != "udev":
                 if self.default_sr == sr:
                     default_sr = i
-		try:
-	            list.append([storage['name_label'],
-		     storage['name_description'],
-	             self.convert_bytes(storage['physical_size']),
-		     self.convert_bytes(int(storage['physical_size'])-int(storage['virtual_allocation'])), sr])
-		except:
+            try:
+                list.append([storage['name_label'],
+                    storage['name_description'],
+                    self.convert_bytes(storage['physical_size']),
+                    self.convert_bytes(int(storage['physical_size'])-int(storage['virtual_allocation'])), sr])
+            except:
                     pass
-                i = i + 1
+            i = i + 1
         return default_sr 
 
     def create_newvm(self, data):
