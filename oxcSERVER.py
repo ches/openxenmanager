@@ -1380,10 +1380,10 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         if "devserial" in self.all_storage[ref]['sm_config']:
             devserial =  self.all_storage[ref]['sm_config']['devserial'].split("-",2)
             labels['lblstgserial'] =  devserial[0].upper() + " ID:"
-        if len(devserial) > 1:
-                labels['lblstgscsi'] = devserial[1]
-        else:
-            labels['lblstgscsi'] = devserial[0]
+            if len(devserial) > 1:
+                    labels['lblstgscsi'] = devserial[1]
+            else:
+                labels['lblstgscsi'] = devserial[0]
         else:
             labels['lblstgscsi'] = ""
       
